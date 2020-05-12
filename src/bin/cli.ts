@@ -1,6 +1,6 @@
 import program from 'commander';
-import { list } from '../';
-
+import { listParameters, getParameter } from '../';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
 interface Options { prefix: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
 
 interface Command { parent: Options }
@@ -20,19 +20,51 @@ program
 program
   .command('list')
   .description('List all the environment variables under a given prefix')
-  .action(async function (command: Command) {
+  .action(async (command: Command): Promise<void> => {
 
-    const { parent: { environment, prefix, awsRegion: region } } = command;
+    const { parent:
+      {
+        environment,
+        prefix,
+        awsRegion: region,
+        awsProfile: profile,
+        awsAccessKeyId: accessKeyId,
+        awsSecretAccessKey: secretAccessKey,
+        awsSessionToken: sessionToken
+      }
+    } = command;
 
-    const response = await list(null, { environment, prefix, region });
-    console.log(null, 2, response);
+    setAWSCredentials({ profile, accessKeyId, secretAccessKey, sessionToken });
+    const response = await listParameters({ environment, prefix, region });
+
+    console.log(response);
   });
 
 program
   .command('get <name>')
   .description('Get secret')
-  .action(function (...args: any) {
-    console.log('get', args);
+  .action(async (name: string, command: Command): Promise<void> => {
+
+
+    const { parent:
+      {
+        environment,
+        prefix,
+        awsRegion: region,
+        awsProfile: profile,
+        awsAccessKeyId: accessKeyId,
+        awsSecretAccessKey: secretAccessKey,
+        awsSessionToken: sessionToken
+      }
+    } = command;
+
+
+    if (name) {
+      setAWSCredentials({ profile, accessKeyId, secretAccessKey, sessionToken });
+      const response = await getParameter({ name, environment, prefix, region });
+      console.log(response);
+    }
+
   });
 
 program
