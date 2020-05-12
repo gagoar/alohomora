@@ -3,9 +3,9 @@ import dateFormat from 'dateformat';
 import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
 
-import { Options } from './types';
-import { API_VERSION, MAX_RESULTS, REGION, DATE_FORMAT, SUCCESS_SYMBOL } from './constants';
-import { normalizeSecretKey } from './utils/normalizeSecretKey';
+import { Options } from '../types';
+import { API_VERSION, MAX_RESULTS, REGION, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
+import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 
 
 const getUser = (lastModifiedUser: string): string => {
@@ -52,11 +52,20 @@ export const listParameters = async ({ environment, prefix, region = REGION }: O
 
   try {
     parameters = await describeParameters(params, region);
-    parameters.forEach(({ Name = '', LastModifiedDate = '', LastModifiedUser = '' }) => {
+    const keys = parameters.map(({ Name = '', LastModifiedDate = '', LastModifiedUser = '' }) => {
       const { name, environment } = normalizeSecretKey(Name, prefix);
       const date = dateFormat(LastModifiedDate, DATE_FORMAT);
-      table.push([name, environment, getUser(LastModifiedUser), date]);
+      return [name, environment, getUser(LastModifiedUser), date];
     });
+
+    keys.sort((a, b) => {
+      if (a[0] > b[0]) return 1;
+      if (a[0] > b[0]) return -1;
+      return 0;
+    })
+
+    table.push(...keys);
+
     loader.stopAndPersist({ text: `found ${parameters.length} secrets, under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
   } catch (e) {
     loader.fail(`we found an error: ${e}`);

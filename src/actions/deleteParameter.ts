@@ -1,8 +1,8 @@
 import SSM from 'aws-sdk/clients/ssm';
 import ora from 'ora';
 
-import { Options } from './types';
-import { REGION, API_VERSION, Environment, SUCCESS_SYMBOL } from './constants';
+import { Options } from '../types';
+import { REGION, API_VERSION, Environment, SUCCESS_SYMBOL } from '../utils/constants';
 
 
 interface Input extends Options {

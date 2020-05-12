@@ -3,15 +3,15 @@ import dateFormat from 'dateformat'
 import Table from 'cli-table3';
 import ora from 'ora';
 
-import { Options } from './types';
-import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from './constants';
+import { Options } from '../types';
+import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
 
 
-interface GetParameterInput extends Options {
+interface Input extends Options {
   name: string
 };
 
-export const getParameter = async ({ name, prefix, region = REGION, environment = Environment.all }: GetParameterInput): Promise<string> => {
+export const getParameter = async ({ name, prefix, region = REGION, environment = Environment.all }: Input): Promise<string> => {
 
   const loader = ora(`retrieving key ${name} with the prefix /${prefix}  (${region})`).start();
 

@@ -3,18 +3,18 @@ import dateFormat from 'dateformat'
 import Table from 'cli-table3';
 import ora from 'ora';
 
-import { Options } from './types';
-import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from './constants';
+import { Options } from '../types';
+import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
 
 
-interface GetParameterInput extends Options {
+interface Input extends Options {
   name: string;
   value: string;
 
   description?: string;
 };
 
-export const setParameter = async ({ name, value, description, prefix, region = REGION, environment = Environment.all }: GetParameterInput): Promise<string> => {
+export const setParameter = async ({ name, value, description, prefix, region = REGION, environment = Environment.all }: Input): Promise<string> => {
 
   const loader = ora(`storing key ${name} with the prefix /${prefix}  (${region})`).start();
 
