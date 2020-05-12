@@ -3,6 +3,8 @@ export const REGION = 'us-east-1';
 export const MAX_RESULTS = 50;
 export const DATE_FORMAT = "dddd, mmmm dS, yyyy, h:MM:ss TT (Z)";
 
+export const SUCCESS_SYMBOL = '💫';
+
 export enum Environment {
   development = 'development',
   production = 'production',

@@ -1,9 +1,10 @@
 import SSM from 'aws-sdk/clients/ssm';
 import dateFormat from 'dateformat'
 import Table from 'cli-table3';
+import ora from 'ora';
 
 import { Options } from './types';
-import { REGION, API_VERSION, Environment, DATE_FORMAT } from './constants';
+import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from './constants';
 
 
 interface GetParameterInput extends Options {
@@ -11,6 +12,8 @@ interface GetParameterInput extends Options {
 };
 
 export const getParameter = async ({ name, prefix, region = REGION, environment = Environment.all }: GetParameterInput): Promise<string> => {
+
+  const loader = ora(`retrieving key ${name} with the prefix /${prefix}  (${region})`).start();
 
   const ssm = new SSM({ apiVersion: API_VERSION, region });
   const params = {
@@ -23,20 +26,25 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
   });
 
 
+  let response;
+
   try {
-    const { Parameter: parameter } = await ssm.getParameter(params).promise();
+    response = await ssm.getParameter(params).promise();
 
-    if (parameter) {
+    if (response.Parameter) {
 
-      const { Value: value, LastModifiedDate: updatedAt, Version: version } = parameter;
+      const { Value: value, LastModifiedDate: updatedAt, Version: version } = response.Parameter;
 
       table.push([name, value, environment, dateFormat(updatedAt, DATE_FORMAT), version]);
+
+      loader.stopAndPersist({ text: `${name} found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
     } else {
-      console.info(`the key ${name} was not found`);
+      loader.stopAndPersist({ text: `${name} not found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
     }
 
   } catch (e) {
-    console.error('something went wrong obtaining key', e);
+    loader.fail(`something went wrong retrieving the key ${name}, ${e}`);
   }
-  return table.toString();
+
+  return response ? table.toString() : '';
 }

@@ -1,18 +1,8 @@
 export { listParameters } from './listParameters';
-
 export { getParameter } from './getParameter';
-// const get = (options: Options): string | undefined => {
+export { setParameter } from './setParameter';
+export { deleteParameter } from './deleteParameter';
 
-// }
-
-
-// const set = (options: Options): boolean => {
-
-// }
-
-// const remove = (options: Options): boolean => {
-
-// }
 
 // type ExportOptions = { template?: string = 'shell', custom?: string };
 

@@ -4,7 +4,7 @@ import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
 
 import { Options } from './types';
-import { API_VERSION, MAX_RESULTS, REGION, DATE_FORMAT } from './constants';
+import { API_VERSION, MAX_RESULTS, REGION, DATE_FORMAT, SUCCESS_SYMBOL } from './constants';
 import { normalizeSecretKey } from './utils/normalizeSecretKey';
 
 
@@ -57,10 +57,9 @@ export const listParameters = async ({ environment, prefix, region = REGION }: O
       const date = dateFormat(LastModifiedDate, DATE_FORMAT);
       table.push([name, environment, getUser(LastModifiedUser), date]);
     });
+    loader.stopAndPersist({ text: `found ${parameters.length} secrets, under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
   } catch (e) {
     loader.fail(`we found an error: ${e}`);
-  } finally {
-    loader.stopAndPersist({ text: `found ${parameters.length} secrets, under /${prefix}  (${region})`, symbol: '💫' });
   }
 
   return parameters.length ? table.toString() : '';
