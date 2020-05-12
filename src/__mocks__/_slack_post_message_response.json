@@ -1,0 +1,100 @@
+{
+    "response": {
+      "statusCode": 200,
+      "body": {
+        "ok": true,
+        "channel": "CB6S4V8NP",
+        "ts": "1528914636.000177",
+        "message": {
+          "text": "some content to *show* how _amazing_ this ~is~",
+          "attachments": [{
+            "text": "And here's an attachment!",
+            "id": 1,
+            "fallback": "And here's an attachment!"
+          }],
+          "username": "bot",
+          "bot_id": "BB5KBR5Q8",
+          "type": "message",
+          "subtype": "bot_message",
+          "ts": "1528914636.000177"
+        },
+        "warning": "missing_charset",
+        "response_metadata": {
+          "warnings": [
+            "missing_charset"
+          ]
+        }
+      },
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "date": "Wed, 13 Jun 2018 18:30:36 GMT",
+        "server": "Apache",
+        "expires": "Mon, 26 Jul 1997 05:00:00 GMT",
+        "x-accepted-oauth-scopes": "chat:write:bot,post",
+        "x-content-type-options": "nosniff",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "referrer-policy": "no-referrer",
+        "vary": "Accept-Encoding",
+        "pragma": "no-cache",
+        "x-xss-protection": "0",
+        "x-slack-req-id": "329b0b4d-4c91-4023-8a17-5fc54771f511",
+        "x-oauth-scopes": "identify,read,post,client,apps",
+        "cache-control": "private, no-cache, no-store, must-revalidate",
+        "x-slack-backend": "h",
+        "access-control-allow-origin": "*",
+        "x-via": "haproxy-www-aw6u",
+        "x-cache": "Miss from cloudfront",
+        "via": "1.1 253721461f577318527fb5be095b5061.cloudfront.net (CloudFront)",
+        "x-amz-cf-id": "KQot9FGoeOfM0XZNWZU6NhVPvGcam9hNp0WYGsVtdkfvBtBvoWUaNg=="
+      },
+      "request": {
+        "uri": {
+          "protocol": "https:",
+          "slashes": true,
+          "auth": null,
+          "host": "slack.com",
+          "port": 443,
+          "hostname": "slack.com",
+          "hash": null,
+          "search": null,
+          "query": null,
+          "pathname": "/api/chat.postMessage",
+          "path": "/api/chat.postMessage",
+          "href": "https://slack.com/api/chat.postMessage"
+        },
+        "method": "POST",
+        "headers": {
+          "authorization": "Bearer xoxb-2161290534-381403429303-rtVSTHoC8q08IH0A1o7HssJh",
+          "accept": "application/json",
+          "content-type": "application/json",
+          "content-length": 90
+        }
+      }
+    },
+    "content": {
+      "ok": true,
+      "channel": "CB6S4V8NP",
+      "ts": "1528914636.000177",
+      "message": {
+        "text": "some content to *show* how _amazing_ this ~is~",
+        "attachments": [{
+          "text": "And here's an attachment!",
+          "id": 1,
+          "fallback": "And here's an attachment!"
+        }],
+        "username": "bot",
+        "bot_id": "BB5KBR5Q8",
+        "type": "message",
+        "subtype": "bot_message",
+        "ts": "1528914636.000177"
+      },
+      "warning": "missing_charset",
+      "response_metadata": {
+        "warnings": [
+          "missing_charset"
+        ]
+      }
+    }
+  }

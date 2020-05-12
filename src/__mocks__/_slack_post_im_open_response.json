@@ -1,0 +1,118 @@
+{
+  "response": {
+    "statusCode": 200,
+    "body": {
+      "ok": true,
+      "no_op": true,
+      "already_open": true,
+      "channel": {
+        "id": "DBB7G0WBG",
+        "created": 1529429803,
+        "is_im": true,
+        "is_org_shared": false,
+        "user": "U7ZDWQ4SW",
+        "last_read": "0000000000.000000",
+        "latest": {
+          "text": "@eric hey something went reallyn wrong!",
+          "username": "i18n | notification",
+          "icons": {
+            "emoji": ":8ball:",
+            "image_64": "https://a.slack-edge.com/37d58/img/emoji_2017_12_06/apple/1f3b1.png"
+          },
+          "bot_id": "BBAQXDN5D",
+          "type": "message",
+          "subtype": "bot_message",
+          "ts": "1529449277.000240"
+        },
+        "unread_count": 5,
+        "unread_count_display": 5,
+        "is_open": true,
+        "priority": 0.020112376173307
+      },
+      "warning": "missing_charset",
+      "response_metadata": {
+        "warnings": ["missing_charset"]
+      }
+    },
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "date": "Wed, 20 Jun 2018 22:51:06 GMT",
+      "server": "Apache",
+      "expires": "Mon, 26 Jul 1997 05:00:00 GMT",
+      "x-content-type-options": "nosniff",
+      "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+      "referrer-policy": "no-referrer",
+      "cache-control": "private, no-cache, no-store, must-revalidate",
+      "x-oauth-scopes": "identify,bot:basic",
+      "vary": "Accept-Encoding",
+      "pragma": "no-cache",
+      "x-accepted-oauth-scopes": "im:write,post",
+      "x-xss-protection": "0",
+      "x-slack-req-id": "c34afce4-7278-4443-8756-9544993cdb35",
+      "x-slack-backend": "h",
+      "access-control-allow-origin": "*",
+      "x-via": "haproxy-www-9bmh",
+      "x-cache": "Miss from cloudfront",
+      "via": "1.1 645c8651bdbfec2029b0d04a1f97f36b.cloudfront.net (CloudFront)",
+      "x-amz-cf-id": "uxvk7bE8dyUviHCanA2NxKEQ7VkF1jBuVLzaypgkEooF2_l56LTn9g=="
+    },
+    "request": {
+      "uri": {
+        "protocol": "https:",
+        "slashes": true,
+        "auth": null,
+        "host": "slack.com",
+        "port": 443,
+        "hostname": "slack.com",
+        "hash": null,
+        "search": null,
+        "query": null,
+        "pathname": "/api/im.open",
+        "path": "/api/im.open",
+        "href": "https://slack.com/api/im.open"
+      },
+      "method": "POST",
+      "headers": {
+        "authorization": "Bearer xoxb-2161290534-383942052277-aERtYJbx172ZNTdrWoIhrGBY",
+        "accept": "application/json",
+        "content-type": "application/json",
+        "content-length": 37
+      }
+    }
+  },
+  "content": {
+    "ok": true,
+    "no_op": true,
+    "already_open": true,
+    "channel": {
+      "id": "DBB7G0WBG",
+      "created": 1529429803,
+      "is_im": true,
+      "is_org_shared": false,
+      "user": "U7ZDWQ4SW",
+      "last_read": "0000000000.000000",
+      "latest": {
+        "text": "@eric hey something went reallyn wrong!",
+        "username": "i18n | notification",
+        "icons": {
+          "emoji": ":8ball:",
+          "image_64": "https://a.slack-edge.com/37d58/img/emoji_2017_12_06/apple/1f3b1.png"
+        },
+        "bot_id": "BBAQXDN5D",
+        "type": "message",
+        "subtype": "bot_message",
+        "ts": "1529449277.000240"
+      },
+      "unread_count": 5,
+      "unread_count_display": 5,
+      "is_open": true,
+      "priority": 0.020112376173307
+    },
+    "warning": "missing_charset",
+    "response_metadata": {
+      "warnings": ["missing_charset"]
+    }
+  }
+}
