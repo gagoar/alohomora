@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "/my-company/my-app/all/BEAUXBATONS",
+    "Type": "String",
+    "Value": "France",
+    "Version": 2,
+    "LastModifiedDate": "2020-04-28T23:38:01.257Z",
+    "ARN": "arn:aws:ssm:us-west-2:687711712713:parameter/my-company/my-app/all/BEAUXBATONS",
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/DURMSTRANG",
+    "Type": "String",
+    "Value": "Germany",
+    "Version": 1,
+    "LastModifiedDate": "2020-04-26T02:05:08.789Z",
+    "ARN": "arn:aws:ssm:us-west-2:687711712713:parameter/my-company/my-app/all/DURMSTRANG",
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/staging/DURMSTRANG",
+    "Type": "String",
+    "Value": "Norway ",
+    "Version": 1,
+    "LastModifiedDate": "2020-04-26T02:05:08.789Z",
+    "ARN": "arn:aws:ssm:us-west-2:687711712713:parameter/my-company/my-app/staging/DURMSTRANG",
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/HOGWARTS",
+    "Type": "String",
+    "Value": "Grand Britain",
+    "Version": 1,
+    "LastModifiedDate": "2020-04-26T01:58:07.989Z",
+    "ARN": "arn:aws:ssm:us-west-2:687711712713:parameter/my-company/my-app/all/HOGWARTS",
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/production/HOGWARTS",
+    "Type": "String",
+    "Value": "somewhere in the magical world",
+    "Version": 3,
+    "LastModifiedDate": "2020-05-06T18:10:03.788Z",
+    "ARN": "arn:aws:ssm:us-west-2:687711712713:parameter/my-company/my-app/production/HOGWARTS",
+    "DataType": "text"
+  }
+]

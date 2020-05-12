@@ -1,0 +1,122 @@
+{
+  "name": "alohomora",
+  "repository": "git@github.com:gagoar/alohomora.git",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "✨ A cli for AWS Systems Manager Parameter Store (ssm) 🔏",
+  "main": "index.ts",
+  "bin": {
+    "alo": "dist/index.js"
+  },
+  "scripts": {
+    "precommit": "lint-staged",
+    "test": "jest",
+    "build": "ncc build ./src/bin/cli.ts",
+    "lint": "eslint src/* --ext .ts"
+  },
+  "engines": {
+    "node": ">12.0.0"
+  },
+  "keywords": [
+    "cli",
+    "AWS",
+    "SSM",
+    "secret",
+    "parameter store",
+    "parameter",
+    "store"
+  ],
+  "lint-staged": {
+    "*.+(js|ts)": [
+      "pretty-quick --staged",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.eslint.json"
+    },
+    "rules": {
+      "no-debugger": "error",
+      "no-process-env": "off",
+      "import/prefer-default-export": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "after-used",
+          "ignoreRestSiblings": true
+        }
+      ],
+      "new-cap": [
+        "error",
+        {
+          "capIsNewExceptions": [
+            "Injectable",
+            "Inject"
+          ]
+        }
+      ],
+      "prefer-destructuring": [
+        "error",
+        {
+          "VariableDeclarator": {
+            "array": false,
+            "object": true
+          },
+          "AssignmentExpression": {
+            "array": true,
+            "object": false
+          }
+        },
+        {
+          "enforceForRenamedProperties": false
+        }
+      ]
+    }
+  },
+  "author": "Gago <xeroice@gmail.com>",
+  "dependencies": {
+    "aws-sdk": "^2.674.0",
+    "cli-table3": "^0.6.0",
+    "commander": "^5.1.0",
+    "cosmiconfig": "^6.0.0",
+    "dateformat": "^3.0.3",
+    "lodash.groupby": "^4.6.0",
+    "ora": "^4.0.4"
+  },
+  "devDependencies": {
+    "jest-mock-process": "^1.4.0",
+    "@types/dateformat": "^3.0.1",
+    "@types/debug": "^4.1.5",
+    "@types/jest": "^25.2.1",
+    "@types/lodash.groupby": "^4.6.6",
+    "@types/node": "^13.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "@zeit/ncc": "^0.22.1",
+    "ajv-keywords": "^3.4.1",
+    "eslint": "^6.0.0",
+    "eslint-config-prettier": "^6.10.1",
+    "husky": "^4.2.5",
+    "jest": "^25",
+    "lint-staged": "^10.2.2",
+    "ncc": "^0.3.6",
+    "prettier": "^2.0.5",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0",
+    "pretty-quick": "^2.0.1",
+    "ts-jest": "^25.5.1",
+    "ts-node": "^8.10.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.9.2"
+  }
+}
