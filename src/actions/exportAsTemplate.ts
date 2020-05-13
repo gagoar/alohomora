@@ -60,9 +60,9 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
     }), {} as Record<string, string>);;
 
     if (environment !== Environment.all && environment in groupedSecrets) {
-      const envSecrets: Record<string, string> = groupedSecrets[environment].reduce(((memo, secret) => {
+      const envSecrets = groupedSecrets[environment].reduce(((memo, secret) => {
         return { ...memo, [secret.name]: secret.value };
-      }));
+      }), {} as Record<string, string> );
 
       secrets = { ...baseSecrets, ...envSecrets };
     } else {
@@ -72,7 +72,7 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
     return templateFunctions[templateName](secrets);
 
   } catch (e) {
-    console.error('something went awfully wrong', e);
+    console.error('We found an error trying to retrieve secrets', e);
     throw e;
   }
 
