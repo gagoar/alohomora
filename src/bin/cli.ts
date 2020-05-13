@@ -1,6 +1,8 @@
 import program from 'commander';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
 import { listParameters, getParameter, setParameter, deleteParameter, exportAsTemplate } from '../';
+import { isValidTemplate } from '../utils/isValidTemplate';
+import { Template } from '../utils/constants';
 
 interface Options { prefix: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
 
@@ -90,15 +92,19 @@ program
 
 program
   .command('export [templateName]')
-  .description('export all keys, a template can be chosen out of the built ones or specify a --customTemplate, by default it exports to the shell')
-  .option('--customTemplate <path/to/the/custom/function.js>, pass the arguments to customTemplate that should be a js function exporting by default the handler')
-  .action(async (templateName: string | undefined, command: Command): Promise<void> => {
+  .description('export all keys, a template can be chosen between json or shell, by default it uses shell')
+  .action(async (templateName: string = Template.shell, command: Command): Promise<void> => {
 
-    const { params, credentials } = getGlobalOptions(command);
+    if (isValidTemplate(templateName)) {
+      const { params, credentials } = getGlobalOptions(command);
 
-    setAWSCredentials(credentials);
-    const response = await exportAsTemplate({ ...params, templateName });
-    console.log(response);
+      setAWSCredentials(credentials);
+      const response = await exportAsTemplate({ ...params, templateName });
+      console.log(response);
+    } else {
+      console.error(`please provide a valid templateName (${Template})`);
+    }
+
   });
 
 program.parse(process.argv);

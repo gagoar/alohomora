@@ -4,7 +4,7 @@ import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
 
 import { Options } from '../types';
-import { API_VERSION, MAX_RESULTS, REGION, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
+import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 
 
@@ -43,7 +43,7 @@ export const listParameters = async ({ environment, prefix, region = REGION }: O
   ]
 
   const params = {
-    MaxResults: MAX_RESULTS,
+    MaxResults: MAX_RESULTS_FOR_DESCRIBE,
     ParameterFilters: parameterFilters,
   };
 
