@@ -1,6 +1,6 @@
 import program from 'commander';
-import { listParameters, getParameter, setParameter, deleteParameter } from '../';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
+import { listParameters, getParameter, setParameter, deleteParameter, exportAsTemplate } from '../';
 
 interface Options { prefix: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
 
@@ -92,12 +92,13 @@ program
   .command('export [templateName]')
   .description('export all keys, a template can be chosen out of the built ones or specify a --customTemplate, by default it exports to the shell')
   .option('--customTemplate <path/to/the/custom/function.js>, pass the arguments to customTemplate that should be a js function exporting by default the handler')
-  .action(async (name: string, command: Command): Promise<void> => {
+  .action(async (templateName: string | undefined, command: Command): Promise<void> => {
 
     const { params, credentials } = getGlobalOptions(command);
 
     setAWSCredentials(credentials);
-    await deleteParameter({ ...params, name });
+    const response = await exportAsTemplate({ ...params, templateName });
+    console.log(response);
   });
 
 program.parse(process.argv);
