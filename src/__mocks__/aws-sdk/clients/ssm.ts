@@ -3,7 +3,8 @@
 import { SSM as RealSSM } from 'aws-sdk';
 enum Methods {
   describeParameters = 'describeParameters',
-  getParameter = 'getParameter'
+  getParameter = 'getParameter',
+  putParameter = 'putParameter'
 }
 
 type SSMMOCKS = Partial<Record<Methods, (props: any) => any>>;
@@ -43,6 +44,12 @@ export default class SSM {
     return dispatch(promise, callback);
 
   }
+  putParameter(props: RealSSM.PutParameterRequest, callback?: Function) {
+    const promise = baseHandler(Methods.putParameter, props);
+
+    return dispatch(promise, callback);
+  }
+
   describeParameters(props: RealSSM.DescribeParametersRequest, callback?: Function) {
     const promise = baseHandler(Methods.describeParameters, props);
 

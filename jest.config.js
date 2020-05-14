@@ -1,3 +1,5 @@
+process.env.TZ = "UTC";
+
 module.exports = {
   globals: {
     "ts-jest": {

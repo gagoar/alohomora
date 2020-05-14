@@ -32,10 +32,10 @@ export const setParameter = async ({ name, value, description, prefix, region = 
   }
 
   const table = new Table({
-    head: ['Name', 'Value', 'Environment', 'Updated by', 'Version']
+    head: ['Name', 'Value', 'Environment', 'Updated at', 'Version']
   });
 
-  let response;
+  let response: SSM.PutParameterResult | undefined;
   try {
     response = await ssm.putParameter(params).promise();
 

@@ -1,4 +1,5 @@
 import SSM from 'aws-sdk/clients/ssm';
+import { AWSError } from 'aws-sdk/lib/core';
 import dateFormat from 'dateformat'
 import Table from 'cli-table3';
 import ora from 'ora';
@@ -26,7 +27,7 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
   });
 
 
-  let response;
+  let response: SSM.GetParameterResult;
 
   try {
     response = await ssm.getParameter(params).promise();
@@ -45,7 +46,12 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
     }
 
   } catch (e) {
-    loader.fail(`something went wrong retrieving the key ${name}, ${e}`);
+    if ((e as AWSError).code === 'ParameterNotFound') {
+      loader.stopAndPersist({ text: `${name} not found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
+    } else {
+      loader.fail(`something went wrong retrieving the key ${name}, ${e}`);
+    }
+
   }
 
   return '';
