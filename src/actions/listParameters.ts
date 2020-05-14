@@ -7,7 +7,6 @@ import { Options } from '../types';
 import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 
-
 const getUser = (lastModifiedUser: string): string => {
   return lastModifiedUser.split('user/')[1];
 }

@@ -1,0 +1,112 @@
+[
+  {
+    "Name": "/my-company/my-app/all/GRAPHQL_ENDPOINT",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2018-11-29T21:26:47.824Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/r2-up",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/PAGERDUTY_E2E_STEP_FUNCTION_INTEGRATION_TOKEN",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2020-04-13T22:49:25.960Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/jon",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/PAGERDUTY_E2E_TEST_FAILURES_INTEGRATION_TOKEN",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2020-04-21T21:32:08.880Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/jon",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/PHABRICATOR_CONDUIT_TOKEN",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2018-11-23T19:25:09.741Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/r2-up",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/PRISMA_ENDPOINT",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2018-11-23T19:26:02.454Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/r2-up",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/PRISMA_MANAGEMENT_API_SECRET",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2019-01-22T20:46:29.453Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/r2-up",
+    "Version": 4,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/SENTRY_DSN",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2018-11-23T19:27:19.165Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/r2-up",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/all/SENTRY_ENVIRONMENT",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2018-11-25T21:11:45.969Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/r2-up",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/development/DEPLOY_SERVICE_STEP_FUNCTION_NAME",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2019-07-12T00:21:37.435Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/kporter",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  },
+  {
+    "Name": "/my-company/my-app/development/DEPLOY_SERVICE_STEP_FUNCTION_WRAPPER_NAME",
+    "Type": "SecureString",
+    "KeyId": "alias/aws/ssm",
+    "LastModifiedDate": "2019-10-03T19:44:53.354Z",
+    "LastModifiedUser": "arn:aws:iam::200374654912:user/kporter",
+    "Version": 1,
+    "Tier": "Standard",
+    "Policies": [],
+    "DataType": "text"
+  }
+]

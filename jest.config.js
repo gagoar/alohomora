@@ -1,15 +1,14 @@
 module.exports = {
   globals: {
     "ts-jest": {
-      disableSourceMapSupport: true,
-    },
+      disableSourceMapSupport: true
+    }
   },
   verbose: true,
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.tsx?$": "ts-jest"
   },
   preset: "ts-jest",
-  node: true,
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   testURL: "http://localhost",
   transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
@@ -18,11 +17,7 @@ module.exports = {
   collectCoverageFrom: [
     "config/**/*.{ts,tsx}",
     "src/**/*.{ts,tsx}",
-    "!src/naptime/**/*",
+    "!src/naptime/**/*"
   ],
-  coverageDirectory: "./coverage/",
-  watchPlugins: [
-    require.resolve("jest-watch-typeahead/filename"),
-    require.resolve("jest-watch-typeahead/testname"),
-  ],
+  coverageDirectory: "./coverage/"
 };

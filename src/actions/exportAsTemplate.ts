@@ -57,12 +57,12 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
     let secrets: Record<string, string>;
     const baseSecrets = (groupedSecrets[Environment.all] || []).reduce(((memo, secret) => {
       return Object.keys(memo).length ? { ...memo, [secret.name]: secret.value } : { [secret.name]: secret.value };
-    }), {} as Record<string, string>);;
+    }), {} as Record<string, string>);
 
     if (environment !== Environment.all && environment in groupedSecrets) {
       const envSecrets = groupedSecrets[environment].reduce(((memo, secret) => {
         return { ...memo, [secret.name]: secret.value };
-      }), {} as Record<string, string> );
+      }), {} as Record<string, string>);
 
       secrets = { ...baseSecrets, ...envSecrets };
     } else {
