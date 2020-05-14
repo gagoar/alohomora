@@ -39,6 +39,19 @@ describe("getParameters", () => {
   it("does not find the parameter", async () => {
     const prefix = 'my-company/my-app';
 
+    const error = { code: 'ParameterNotFound', name: 'ParameterNotFound' };
+
+    const handler = jest.fn(() => { throw error; });
+
+    SSM.__setResponseForMethods({ getParameter: handler });
+
+    const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix });
+    expect(response).toBe('');
+  })
+
+  it("does not find the parameter, but it returns Parameter empty, without throwing an Error", async () => {
+    const prefix = 'my-company/my-app';
+
     const handler = jest.fn(() => ({ Parameter: undefined }));
 
     SSM.__setResponseForMethods({ getParameter: handler });
