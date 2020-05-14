@@ -1,34 +1,11 @@
 import program from 'commander';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
-import { listParameters, getParameter, setParameter, deleteParameter, exportAsTemplate } from '../';
+import { getParameter, setParameter, deleteParameter, exportAsTemplate } from '../';
+import { listCommand } from '../actions/commands';
 import { isValidTemplate } from '../utils/guards';
 import { Template } from '../utils/constants';
+import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
 
-interface Options { prefix: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
-
-type PossibleCredentials = { profile?: string, accessKeyId?: string, secretAccessKey?: string, sessionToken?: string };
-type Parameters = { prefix: string, region?: string, environment?: string }
-interface Command { parent: Options }
-
-const getGlobalOptions = (command: Command): { params: Parameters, credentials: PossibleCredentials } => {
-  const {
-    parent:
-    {
-      environment,
-      prefix,
-      awsRegion: region,
-      awsProfile: profile,
-      awsAccessKeyId: accessKeyId,
-      awsSecretAccessKey: secretAccessKey,
-      awsSessionToken: sessionToken
-    }
-  } = command
-
-  return {
-    credentials: { profile, accessKeyId, secretAccessKey, sessionToken },
-    params: { prefix, region, environment }
-  }
-}
 program
   .name('alohomora')
   .version('1.0.0')
@@ -44,27 +21,12 @@ program
 program
   .command('list')
   .description('List all the environment variables under a given prefix')
-  .action(async (command: Command): Promise<void> => {
-
-    const { params, credentials } = getGlobalOptions(command);
-
-    setAWSCredentials(credentials);
-    const response = await listParameters(params);
-
-    console.log(response);
-  });
+  .action(listCommand);
 
 program
   .command('get <name>')
   .description('Get secret')
-  .action(async (name: string, command: Command): Promise<void> => {
-
-    const { params, credentials } = getGlobalOptions(command);
-
-    setAWSCredentials(credentials);
-    const response = await getParameter({ ...params, name });
-    console.log(response);
-  });
+  .action();
 
 program
   .command('set <name> <value> [description]')

@@ -6,6 +6,8 @@ import SSM from 'aws-sdk/clients/ssm';
 import { Options } from '../types';
 import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
+import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
 
 const getUser = (lastModifiedUser: string): string => {
   return lastModifiedUser.split('user/')[1];
@@ -72,3 +74,13 @@ export const listParameters = async ({ environment, prefix, region = REGION }: O
 
   return parameters.length ? table.toString() : '';
 }
+
+export const command = async (command: Command): Promise<void> => {
+
+  const { params, credentials } = getGlobalOptions(command);
+
+  setAWSCredentials(credentials);
+  const response = await listParameters(params);
+
+  console.log(response);
+};

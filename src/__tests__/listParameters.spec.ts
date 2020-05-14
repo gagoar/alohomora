@@ -1,8 +1,22 @@
 import listParametersPayload from '../__mocks__/describeParameters.json';
 import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { listParameters } from '../';
+import { listCommand } from '../actions/commands';
 
+const realConsoleLog = console.log;
+const consoleLogMock = jest.fn();
 describe("listParameters", () => {
+  beforeAll(() => {
+    global.console.log = consoleLogMock;
+  });
+
+  afterAll(() => {
+    global.console.log = realConsoleLog;
+  });
+
+  beforeEach(() => {
+    consoleLogMock.mockReset();
+  })
   it("request fails", async () => {
     const prefix = 'my-company/my-app';
 
@@ -38,6 +52,16 @@ describe("listParameters", () => {
     const response = await listParameters({ prefix });
     expect(response).toMatchSnapshot();
     expect(handler).toHaveBeenCalledTimes(2);
+  });
+
+  it('via command invocation', async () => {
+    const prefix = 'my-company/my-app';
+    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
+    SSM.__setResponseForMethods({ describeParameters: handler });
+
+    await listCommand({ parent: { prefix } });
+
+    expect(consoleLogMock).toHaveBeenCalled();
   });
 
 });

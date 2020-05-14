@@ -6,6 +6,8 @@ import ora from 'ora';
 
 import { Options } from '../types';
 import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
+import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
 
 
 interface Input extends Options {
@@ -55,4 +57,13 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
   }
 
   return '';
+}
+
+export const command = async (name: string, command: Command): Promise<void> => {
+
+  const { params, credentials } = getGlobalOptions(command);
+
+  setAWSCredentials(credentials);
+  const response = await getParameter({ ...params, name });
+  console.log(response);
 }

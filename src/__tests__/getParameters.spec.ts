@@ -1,5 +1,6 @@
 import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { getParameter } from '..';
+import { getCommand } from '../actions/commands';
 import { stopAndPersist, fail } from '../__mocks__/ora';
 
 const getParameterPayload = {
@@ -12,10 +13,22 @@ const getParameterPayload = {
   "DataType": "text"
 };
 
+const realConsoleLog = console.log;
+const consoleLogMock = jest.fn();
+
 describe("getParameters", () => {
+  beforeAll(() => {
+    global.console.log = consoleLogMock;
+  });
+
+  afterAll(() => {
+    global.console.log = realConsoleLog;
+  });
+
   beforeEach(() => {
     stopAndPersist.mockReset();
     fail.mockReset();
+    consoleLogMock.mockReset();
   });
   it("request fails", async () => {
     const prefix = 'my-company/my-app';
@@ -68,4 +81,15 @@ describe("getParameters", () => {
     expect(stopAndPersist).toHaveBeenCalledTimes(1);
     expect(response).toBe('');
   })
+
+  it('via command invocation', async () => {
+    const prefix = 'my-company/my-app';
+    const handler = jest.fn(() => ({ Parameter: getParameterPayload }));
+
+    SSM.__setResponseForMethods({ getParameter: handler });
+
+    await getCommand('Vault_713', { parent: { prefix } });
+
+    expect(consoleLogMock).toHaveBeenCalled();
+  });
 });
