@@ -1,7 +1,7 @@
 import program from 'commander';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
-import { getParameter, setParameter, deleteParameter, exportAsTemplate } from '../';
-import { listCommand } from '../actions/commands';
+import { deleteParameter, exportAsTemplate } from '../';
+import { listCommand, getCommand, setCommand } from '../actions/commands';
 import { isValidTemplate } from '../utils/guards';
 import { Template } from '../utils/constants';
 import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
@@ -26,20 +26,13 @@ program
 program
   .command('get <name>')
   .description('Get secret')
-  .action();
+  .action(getCommand);
 
 program
   .command('set <name> <value> [description]')
   .description('Set secret')
-  .action(async (name: string, value: string, description: string | undefined, command: Command): Promise<void> => {
-
-    const { params, credentials } = getGlobalOptions(command);
-
-    setAWSCredentials(credentials);
-    const response = await setParameter({ ...params, name, value, description: description });
-    console.log(response);
-
-  });
+  .action(setCommand);
+  .action();
 
 program
   .command('delete <name>')
