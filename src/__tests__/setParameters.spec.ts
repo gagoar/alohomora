@@ -1,5 +1,5 @@
 import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { setParameter } from '../actions';
+import { setParameter } from '..';
 
 const RealDate = Date.now
 

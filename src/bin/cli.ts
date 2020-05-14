@@ -103,6 +103,7 @@ program
       console.log(response);
     } else {
       console.error(`please provide a valid templateName (${Template})`);
+      process.exit(1)
     }
 
   });

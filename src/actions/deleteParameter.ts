@@ -1,4 +1,5 @@
 import SSM from 'aws-sdk/clients/ssm';
+import { AWSError } from 'aws-sdk/lib/core';
 import ora from 'ora';
 
 import { Options } from '../types';
@@ -26,6 +27,10 @@ export const deleteParameter = async ({ name, prefix, region = REGION, environme
     await ssm.deleteParameter(params).promise();
     loader.stopAndPersist({ text: `deleted ${keyName} (${region})`, symbol: SUCCESS_SYMBOL });
   } catch (e) {
-    loader.fail(`Something went wrong deleting the key ${keyName}, ${e}`);
+    if ((e as AWSError).code === 'ParameterNotFound') {
+      loader.stopAndPersist({ text: `parameter ${keyName} not found (${region})`, symbol: SUCCESS_SYMBOL });
+    } else {
+      loader.fail(`Something went wrong deleting the key ${keyName}, ${e}`);
+    }
   }
 }

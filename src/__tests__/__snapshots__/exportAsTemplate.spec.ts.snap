@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exportAsTemplate export parameters in a shell as a template by default 1`] = `
+"export BEAUXBATONS='France'
+export DURMSTRANG='Germany'
+export HOGWARTS='Grand Britain'"
+`;
+
+exports[`exportAsTemplate export parameters in a shell as a template by default, using production as environment 1`] = `
+"export BEAUXBATONS='France'
+export DURMSTRANG='Germany'
+export HOGWARTS='somewhere in the magical world'"
+`;
+
+exports[`exportAsTemplate export parameters in json format, using nextToken 1`] = `
+"{
+  \\"BEAUXBATONS\\": \\"France\\",
+  \\"DURMSTRANG\\": \\"Germany\\"
+}"
+`;

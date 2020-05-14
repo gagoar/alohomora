@@ -1,5 +1,6 @@
 import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { getParameter } from '../actions';
+import { getParameter } from '..';
+import { stopAndPersist, fail } from '../__mocks__/ora';
 
 const getParameterPayload = {
   "Name": "/my-company/my-app/production/Vault_713",
@@ -12,6 +13,10 @@ const getParameterPayload = {
 };
 
 describe("getParameters", () => {
+  beforeEach(() => {
+    stopAndPersist.mockReset();
+    fail.mockReset();
+  });
   it("request fails", async () => {
     const prefix = 'my-company/my-app';
 
@@ -21,8 +26,9 @@ describe("getParameters", () => {
     SSM.__setResponseForMethods({ getParameter: handler });
 
     const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix });
-    expect(response).toBe('');
 
+    expect(fail).toHaveBeenCalledTimes(1);
+    expect(response).toBe('');
   });
 
   it("gets the parameter", async () => {
@@ -33,6 +39,7 @@ describe("getParameters", () => {
     SSM.__setResponseForMethods({ getParameter: handler });
 
     const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix });
+    expect(stopAndPersist).toHaveBeenCalledTimes(1);
     expect(response).toMatchSnapshot();
   });
 
@@ -46,6 +53,7 @@ describe("getParameters", () => {
     SSM.__setResponseForMethods({ getParameter: handler });
 
     const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix });
+    expect(stopAndPersist).toHaveBeenCalledTimes(1);
     expect(response).toBe('');
   })
 
@@ -57,6 +65,7 @@ describe("getParameters", () => {
     SSM.__setResponseForMethods({ getParameter: handler });
 
     const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix });
+    expect(stopAndPersist).toHaveBeenCalledTimes(1);
     expect(response).toBe('');
   })
 });
