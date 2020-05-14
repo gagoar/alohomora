@@ -29,7 +29,7 @@ async function cli(
   });
 }
 
-describe("on CLI invoke", () => {
+describe.skip("on CLI invoke", () => {
   test("export  --help", async () => {
     const result = await cli(["export", `--help`]);
     expect(result.error).toBe(null);

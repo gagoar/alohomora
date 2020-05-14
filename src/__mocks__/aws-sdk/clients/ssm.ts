@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SSM as RealSSM } from 'aws-sdk';
-type SSMMOCKS = Record<string, any>
+enum Methods {
+  describeParameters = 'describeParameters'
+}
+type SSMMOCKS = Record<Methods, (input: any) => any>
 let ssmMocks = {} as SSMMOCKS;
 
 type Dispatch = (response: Promise<any>, callback?: Function) => { promise: () => Promise<any> } | any
@@ -15,10 +18,8 @@ const dispatch: Dispatch = (response, callback?: Function) => {
 }
 
 const handleDescribeParameters = async (props: RealSSM.DescribeParametersRequest): Promise<Record<string, any>> => {
-  const [filter] = props.ParameterFilters!;
-
-  if (filter && filter.Key in ssmMocks) {
-    return ssmMocks[filter.Key];
+  if (Methods.describeParameters in ssmMocks) {
+    return ssmMocks[Methods.describeParameters](props);
   } else {
     return {}
   }
