@@ -2,9 +2,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SSM as RealSSM } from 'aws-sdk';
 enum Methods {
-  describeParameters = 'describeParameters'
+  describeParameters = 'describeParameters',
+  getParameter = 'getParameter'
 }
-type SSMMOCKS = Record<Methods, (input: any) => any>
+
+type SSMMOCKS = Partial<Record<Methods, (props: any) => any>>;
 let ssmMocks = {} as SSMMOCKS;
 
 type Dispatch = (response: Promise<any>, callback?: Function) => { promise: () => Promise<any> } | any
@@ -17,9 +19,10 @@ const dispatch: Dispatch = (response, callback?: Function) => {
   return response.then((result: RealSSM.DescribeParametersResult) => callback(null, result)).catch((err: Error) => callback(err, null));
 }
 
-const handleDescribeParameters = async (props: RealSSM.DescribeParametersRequest): Promise<Record<string, any>> => {
-  if (Methods.describeParameters in ssmMocks) {
-    return ssmMocks[Methods.describeParameters](props);
+const baseHandler = async <T>(method: Methods, props: T): Promise<Record<string, any>> => {
+  if (method in ssmMocks) {
+    const handler = ssmMocks[method];
+    return handler && handler(props);
   } else {
     return {}
   }
@@ -34,8 +37,14 @@ export default class SSM {
     return { ...ssmMocks };
   }
 
+  getParameter(props: RealSSM.GetParametersRequest, callback?: Function) {
+    const promise = baseHandler(Methods.getParameter, props);
+
+    return dispatch(promise, callback);
+
+  }
   describeParameters(props: RealSSM.DescribeParametersRequest, callback?: Function) {
-    const promise = handleDescribeParameters(props);
+    const promise = baseHandler(Methods.describeParameters, props);
 
     return dispatch(promise, callback);
 

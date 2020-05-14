@@ -38,6 +38,8 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
       table.push([name, value, environment, dateFormat(updatedAt, DATE_FORMAT), version]);
 
       loader.stopAndPersist({ text: `${name} found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
+      return table.toString();
+
     } else {
       loader.stopAndPersist({ text: `${name} not found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
     }
@@ -46,5 +48,5 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
     loader.fail(`something went wrong retrieving the key ${name}, ${e}`);
   }
 
-  return response ? table.toString() : '';
+  return '';
 }
