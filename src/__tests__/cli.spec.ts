@@ -29,6 +29,7 @@ async function cli(
   });
 }
 
+// Used for manual testing purposes. I trust commander  does what is should do. 
 describe.skip("on CLI invoke", () => {
   test("export  --help", async () => {
     const result = await cli(["export", `--help`]);
