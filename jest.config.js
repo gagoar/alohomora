@@ -19,7 +19,8 @@ module.exports = {
   collectCoverageFrom: [
     "config/**/*.{ts,tsx}",
     "src/**/*.{ts,tsx}",
-    "!src/naptime/**/*"
+    "!src/utils/guards.ts",
+    "!src/bin/cli.ts"
   ],
   coverageDirectory: "./coverage/"
 };

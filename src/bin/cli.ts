@@ -1,7 +1,7 @@
 import program from 'commander';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
 import { listParameters, getParameter, setParameter, deleteParameter, exportAsTemplate } from '../';
-import { isValidTemplate } from '../utils/isValidTemplate';
+import { isValidTemplate } from '../utils/guards';
 import { Template } from '../utils/constants';
 
 interface Options { prefix: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
@@ -69,12 +69,12 @@ program
 program
   .command('set <name> <value> [description]')
   .description('Set secret')
-  .action(async (name: string, value: string, description: string | null, command: Command): Promise<void> => {
+  .action(async (name: string, value: string, description: string | undefined, command: Command): Promise<void> => {
 
     const { params, credentials } = getGlobalOptions(command);
 
     setAWSCredentials(credentials);
-    const response = await setParameter({ ...params, name, value, description: description ? description : undefined });
+    const response = await setParameter({ ...params, name, value, description: description });
     console.log(response);
 
   });
