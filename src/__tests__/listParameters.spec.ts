@@ -25,7 +25,7 @@ describe("listParameters", () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix });
+    const response = await listParameters({ prefix, cli: true });
     expect(response).toMatchSnapshot();
 
   });
@@ -37,7 +37,7 @@ describe("listParameters", () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix, environment: 'production' });
+    const response = await listParameters({ prefix, environment: 'production', cli: true });
     expect(response).toMatchSnapshot();
   });
   it("gets parameters, using nextToken", async () => {
