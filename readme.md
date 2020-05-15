@@ -19,7 +19,7 @@
   <p align="center">
     ✨A cli for AWS Systems Manager Parameter Store (ssm) 🔏
     <br />
-    <a href="https://codecov.io/gh/gagoar/alohomora#table-of-contents"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/gagoar/alohomora#table-of-contents"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/gagoar/alohomora/issues">Report Bug</a>
