@@ -1,3 +1,4 @@
+[!alohomora](https://github.com/gagoar/alohomora/workflows/alohomora/badge.svg)
 [![codecov](https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV)](https://codecov.io/gh/gagoar/alohomora)
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
