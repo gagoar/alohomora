@@ -49,7 +49,7 @@ describe("listParameters", () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix });
+    const response = await listParameters({ prefix, cli: true });
     expect(response).toMatchSnapshot();
     expect(handler).toHaveBeenCalledTimes(2);
   });
