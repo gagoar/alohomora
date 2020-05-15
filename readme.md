@@ -1,10 +1,7 @@
+![workflow](https://github.com/gagoar/alohomora/workflows/alohomora/badge.svg)
 [![codecov](https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV)](https://codecov.io/gh/gagoar/alohomora)
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/572336d13ec74669a40b7b26c23f58f5)](https://app.codacy.com/manual/xeroice/alohomora?utm_source=github.com&utm_medium=referral&utm_content=gagoar/alohomora&utm_campaign=Badge_Grade_Dashboard)
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -18,7 +15,7 @@
   <p align="center">
     ✨A cli for AWS Systems Manager Parameter Store (ssm) 🔏
     <br />
-    <a href="https://codecov.io/gh/gagoar/alohomora#table-of-contents"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/gagoar/alohomora#table-of-contents"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/gagoar/alohomora/issues">Report Bug</a>
@@ -32,15 +29,13 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
+- [Built With](#built-with)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
 
@@ -52,12 +47,12 @@
   </a>
 </p>
 
-There are many libraries that deal with parameter store secrets, however, I didn't find one that really suit my needs so I created this one. I wanted to create a library that will solve all my needs when using secrets including exporting the key/secrets to different formats.
+Many libraries deal with parameter store secrets. However, I didn't find one that suits my needs, so I created this one. I wanted to develop a library that will solve all my needs while using secrets, including exporting the key/secrets to different formats
 
 Here's why:
 
-- Some solutions out there create their own prefix to store keys, not leaving much flexibility when trying to migrate if needed.
-- Exports were limited, not giving support to json output and possible others.
+- Some solutions out there create their prefix to store keys, not leaving much flexibility when trying to migrate if needed.
+- Exports were limited, not giving support to JSON output and possible others.
 
 ### Built With
 
@@ -72,8 +67,7 @@ Here's why:
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Here is an example of how you may give instructions to set up a local project. You should follow these simple steps to get a local copy up and running:
 
 ### Prerequisites
 
@@ -126,7 +120,7 @@ alohomora can get configuration from several places:
 
 ### CLI options
 
-If you are using it as a [global command](#installation) you can provide every option via cli:
+If you are using it as a [global command](#installation), you can provide all the options via cli:
 
 ```sh
   alo list --prefix my-company/my-app --aws-region us-west-2  --aws-profile myCustomAWSProfile --environment production
@@ -177,7 +171,7 @@ See the [open issues](https://github.com/gagoar/alohomora/issues) for a list of 
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -193,9 +187,16 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-## Contact
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-Gago - [@gagoar](https://twitter.com/gagoar)
+<p align="center">
+  <a href="https://twitter.com/intent/follow?screen_name=shields_io">
+      <img src="https://img.shields.io/twitter/follow/gagoar?style=social&logo=twitter" alt="follow on Twitter">
+  </a>
+  <a href="https://twitter.com/intent/follow?screen_name=shields_io">
+      <img src="https://img.shields.io/twitter/follow/gagoar?style=social&logo=twitter" alt="follow on Twitter">
+  </a>
+</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -212,4 +213,3 @@ Gago - [@gagoar](https://twitter.com/gagoar)
 [license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/gagoar
-[product-screenshot]: images/cast.png

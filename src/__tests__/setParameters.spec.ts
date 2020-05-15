@@ -5,13 +5,13 @@ import { setCommand } from '../actions/commands';
 const RealDate = Date.now
 
 const setParameterPayload = {
-  "Version": 1,
+  'Version': 1,
 };
 
 const realConsoleLog = console.log;
 const consoleLogMock = jest.fn();
 
-describe("setParameters", () => {
+describe('setParameters', () => {
 
   beforeAll(() => {
     global.console.log = consoleLogMock;
@@ -25,7 +25,7 @@ describe("setParameters", () => {
     Date.now = RealDate;
   });
 
-  it("request fails", async () => {
+  it('request fails', async () => {
     const prefix = 'my-company/my-app';
 
     const handler = jest.fn()
@@ -33,19 +33,19 @@ describe("setParameters", () => {
 
     SSM.__setResponseForMethods({ putParameter: handler });
 
-    const response = await setParameter({ name: 'Vault_713', value: "Boggart", environment: 'production', prefix });
+    const response = await setParameter({ name: 'Vault_713', value: 'Boggart', environment: 'production', prefix });
     expect(response).toBe('');
 
   });
 
-  it("sets the parameter", async () => {
+  it('sets the parameter', async () => {
     const prefix = 'my-company/my-app';
 
     const handler = jest.fn(() => setParameterPayload);
 
     SSM.__setResponseForMethods({ putParameter: handler });
 
-    const response = await setParameter({ name: 'Vault_713', value: "Boggart", environment: 'production', prefix });
+    const response = await setParameter({ name: 'Vault_713', value: 'Boggart', environment: 'production', prefix, cli: true });
     expect(response).toMatchSnapshot();
   });
 

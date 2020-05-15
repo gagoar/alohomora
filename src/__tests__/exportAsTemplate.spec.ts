@@ -1,15 +1,15 @@
 import { mockProcessExit } from 'jest-mock-process';
-import getParametersByPathPayload from "../__mocks__/getParametersByPath.json";
-import SSM from "../__mocks__/aws-sdk/clients/ssm";
-import { exportAsTemplate } from "..";
-import { exportCommand } from "../actions/commands";
-import { Template } from "../utils/constants";
+import getParametersByPathPayload from '../__mocks__/getParametersByPath.json';
+import SSM from '../__mocks__/aws-sdk/clients/ssm';
+import { exportAsTemplate } from '..';
+import { exportCommand } from '../actions/commands';
+import { Template } from '../utils/constants';
 
 const realConsoleLog = global.console.log;
 const consoleLogMock = jest.fn();
 const realConsoleError = global.console.error;
 const consoleErrorMock = jest.fn();
-describe("exportAsTemplate", () => {
+describe('exportAsTemplate', () => {
   beforeEach(() => {
     global.console.error = consoleErrorMock;
     global.console.log = consoleLogMock;
@@ -24,11 +24,11 @@ describe("exportAsTemplate", () => {
     consoleErrorMock.mockReset();
     consoleLogMock.mockReset();
   });
-  it("request fails", async () => {
-    const prefix = "my-company/my-app";
+  it('request fails', async () => {
+    const prefix = 'my-company/my-app';
 
     const handler = jest.fn().mockImplementationOnce(() => {
-      throw new Error("Some fatal error ocurred");
+      throw new Error('Some fatal error ocurred');
     });
 
     SSM.__setResponseForMethods({ getParametersByPath: handler });
@@ -36,7 +36,7 @@ describe("exportAsTemplate", () => {
     try {
       await exportAsTemplate({ prefix });
     } catch (e) {
-      expect(e).toMatchInlineSnapshot(`[Error: Some fatal error ocurred]`);
+      expect(e).toMatchInlineSnapshot('[Error: Some fatal error ocurred]');
       expect(consoleErrorMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
@@ -48,8 +48,8 @@ describe("exportAsTemplate", () => {
     }
   });
 
-  it("export parameters in a shell as a template by default", async () => {
-    const prefix = "my-company/my-app";
+  it('export parameters in a shell as a template by default', async () => {
+    const prefix = 'my-company/my-app';
 
     const handler = jest.fn(() => ({ Parameters: getParametersByPathPayload }));
 
@@ -59,8 +59,8 @@ describe("exportAsTemplate", () => {
     expect(response).toMatchSnapshot();
   });
 
-  it("export parameters in a shell as a template by default, using production as environment", async () => {
-    const prefix = "my-company/my-app";
+  it('export parameters in a shell as a template by default, using production as environment', async () => {
+    const prefix = 'my-company/my-app';
 
     const handler = jest.fn(() => ({ Parameters: getParametersByPathPayload }));
 
@@ -70,14 +70,14 @@ describe("exportAsTemplate", () => {
     expect(response).toMatchSnapshot();
   })
 
-  it("export parameters in json format, using nextToken", async () => {
-    const prefix = "my-company/my-app";
+  it('export parameters in json format, using nextToken', async () => {
+    const prefix = 'my-company/my-app';
 
     const handler = jest
       .fn()
       .mockImplementationOnce(() => ({
         Parameters: getParametersByPathPayload.slice(0, 3),
-        NextToken: "MokeskinPouch",
+        NextToken: 'MokeskinPouch',
       }))
       .mockImplementationOnce(() => ({
         Parameters: getParametersByPathPayload.slice(4, 8),

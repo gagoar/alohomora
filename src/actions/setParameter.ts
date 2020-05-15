@@ -4,7 +4,7 @@ import Table from 'cli-table3';
 import ora from 'ora';
 
 import { Options } from '../types';
-import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
+import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL, DISABLE_TABLE_COLORS } from '../utils/constants';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
 
@@ -16,7 +16,7 @@ interface Input extends Options {
   description?: string;
 };
 
-export const setParameter = async ({ name, value, description, prefix, region = REGION, environment = Environment.all }: Input): Promise<string> => {
+export const setParameter = async ({ name, value, description, prefix, region = REGION, cli = false, environment = Environment.all }: Input): Promise<string> => {
 
   const loader = ora(`storing key ${name} with the prefix /${prefix}  (${region})`).start();
 
@@ -34,7 +34,8 @@ export const setParameter = async ({ name, value, description, prefix, region = 
   }
 
   const table = new Table({
-    head: ['Name', 'Value', 'Environment', 'Updated at', 'Version']
+    head: ['Name', 'Value', 'Environment', 'Updated at', 'Version'],
+    style: cli ? DISABLE_TABLE_COLORS : undefined
   });
 
   let response: SSM.PutParameterResult | undefined;

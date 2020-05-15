@@ -1,3 +1,3 @@
 
 export const search = jest.fn();
-export const cosmiconfig = () => ({ search }) 
+export const cosmiconfig = () => ({ search });

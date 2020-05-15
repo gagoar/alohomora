@@ -5,7 +5,7 @@ import Table from 'cli-table3';
 import ora from 'ora';
 
 import { Options } from '../types';
-import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL } from '../utils/constants';
+import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL, DISABLE_TABLE_COLORS } from '../utils/constants';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
 
@@ -14,7 +14,7 @@ interface Input extends Options {
   name: string
 };
 
-export const getParameter = async ({ name, prefix, region = REGION, environment = Environment.all }: Input): Promise<string> => {
+export const getParameter = async ({ name, prefix, region = REGION, cli = false, environment = Environment.all }: Input): Promise<string> => {
 
   const loader = ora(`retrieving key ${name} with the prefix /${prefix}  (${region})`).start();
 
@@ -25,7 +25,8 @@ export const getParameter = async ({ name, prefix, region = REGION, environment 
   };
 
   const table = new Table({
-    head: ['Name', 'Value', 'Environment', 'Updated by', 'Version']
+    head: ['Name', 'Value', 'Environment', 'Updated by', 'Version'],
+    style: cli ? DISABLE_TABLE_COLORS : undefined
   });
 
 

@@ -1,10 +1,10 @@
-import path from "path";
+import path from 'path';
 
-import { exec, ExecException } from "child_process";
+import { exec, ExecException } from 'child_process';
 
 async function cli(
   args: string[],
-  cwd = "."
+  cwd = '.'
 ): Promise<{
   code: number;
   error: ExecException | null;
@@ -14,8 +14,8 @@ async function cli(
   return new Promise((resolve) => {
     exec(
       `ts-node --project tsconfig.node.json ${path.resolve(
-        "./src/bin/cli"
-      )} ${args.join(" ")}`,
+        './src/bin/cli'
+      )} ${args.join(' ')}`,
       { cwd },
       (error, stdout, stderr) => {
         resolve({
@@ -30,9 +30,9 @@ async function cli(
 }
 
 // Used for manual testing purposes. I trust commander  does what is should do. 
-describe.skip("on CLI invoke", () => {
-  test("export  --help", async () => {
-    const result = await cli(["export", `--help`]);
+describe.skip('on CLI invoke', () => {
+  test('export  --help', async () => {
+    const result = await cli(['export', '--help']);
     expect(result.error).toBe(null);
     expect(result.stdout).toMatchInlineSnapshot(`
       "Usage: alohomora export [options] [templateName]
@@ -44,8 +44,8 @@ describe.skip("on CLI invoke", () => {
       "
     `);
   });
-  test("get  --help", async () => {
-    const result = await cli(["get", `--help`]);
+  test('get  --help', async () => {
+    const result = await cli(['get', '--help']);
     expect(result.error).toBe(null);
     expect(result.stdout).toMatchInlineSnapshot(`
       "Usage: alohomora get [options] <name>
@@ -57,8 +57,8 @@ describe.skip("on CLI invoke", () => {
       "
     `);
   });
-  test("set  --help", async () => {
-    const result = await cli(["set", `--help`]);
+  test('set  --help', async () => {
+    const result = await cli(['set', '--help']);
     expect(result.error).toBe(null);
     expect(result.stdout).toMatchInlineSnapshot(`
       "Usage: alohomora set [options] <name> <value> [description]
@@ -70,8 +70,8 @@ describe.skip("on CLI invoke", () => {
       "
     `);
   });
-  test("list  --help", async () => {
-    const result = await cli(["list", `--help`]);
+  test('list  --help', async () => {
+    const result = await cli(['list', '--help']);
     expect(result.error).toBe(null);
     expect(result.stdout).toMatchInlineSnapshot(`
       "Usage: alohomora list [options]

@@ -1,9 +1,9 @@
-import AWS from "aws-sdk";
-import { setAWSCredentials } from "../utils/setAWSCredentials";
+import AWS from 'aws-sdk';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
 
-describe("setAWSCredentials", () => {
-  it("sets sharedCredentials when profile is provided", async () => {
-    setAWSCredentials({ profile: "someAlterProfile" });
+describe('setAWSCredentials', () => {
+  it('sets sharedCredentials when profile is provided', async () => {
+    setAWSCredentials({ profile: 'someAlterProfile' });
 
     expect(AWS.config.credentials).toMatchInlineSnapshot(`
       SharedIniFileCredentials {
@@ -21,7 +21,7 @@ describe("setAWSCredentials", () => {
       }
     `);
   });
-  it("does not sets any credentials when none provided", async () => {
+  it('does not sets any credentials when none provided', async () => {
     setAWSCredentials(null);
 
     expect(AWS.config.credentials).toMatchInlineSnapshot(`
@@ -40,10 +40,10 @@ describe("setAWSCredentials", () => {
       }
     `);
   });
-  it("sets credentials when provided", async () => {
+  it('sets credentials when provided', async () => {
     setAWSCredentials({
-      accessKeyId: "someKeyId",
-      secretAccessKey: "someAccessKey",
+      accessKeyId: 'someKeyId',
+      secretAccessKey: 'someAccessKey',
     });
 
     expect(AWS.config.credentials).toMatchInlineSnapshot(`

@@ -4,7 +4,7 @@ import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
 
 import { Options } from '../types';
-import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE } from '../utils/constants';
+import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE, DISABLE_TABLE_COLORS } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
@@ -25,12 +25,13 @@ const describeParameters = async (params: SSM.DescribeParametersRequest, region:
   }
 }
 
-export const listParameters = async ({ environment, prefix, region = REGION }: Options): Promise<string> => {
+export const listParameters = async ({ environment, prefix, region = REGION, cli = false }: Options): Promise<string> => {
 
   const loader = ora(`Finding keys with the prefix /${prefix}  (${region})`).start();
 
   const table = new Table({
-    head: ['Name', 'Environment', 'Updated by', 'Updated at']
+    head: ['Name', 'Environment', 'Updated by', 'Updated at'],
+    style: cli ? DISABLE_TABLE_COLORS : undefined
   });
 
   const path = environment ? `/${prefix}/${environment}/` : `/${prefix}`;
