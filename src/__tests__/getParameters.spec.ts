@@ -51,7 +51,7 @@ describe("getParameters", () => {
 
     SSM.__setResponseForMethods({ getParameter: handler });
 
-    const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix });
+    const response = await getParameter({ name: 'Vault_713', environment: 'production', prefix, cli: true });
     expect(stopAndPersist).toHaveBeenCalledTimes(1);
     expect(response).toMatchSnapshot();
   });
