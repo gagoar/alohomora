@@ -124,7 +124,7 @@ Every command accepts several options via cli or via custom configuration [see c
   alo delete SECRET_KEY_NAME --prefix my-company/my-app --environment production
 ```
 
-### Delete a secret.
+### Export a secret.
 
 ```sh
   alo export json --prefix my-company/my-app --environment production
