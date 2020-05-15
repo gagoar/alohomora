@@ -40,7 +40,7 @@ export const deleteParameter = async ({ name, prefix, region = REGION, environme
 
 export const command = async (name: string, command: Command): Promise<void> => {
 
-  const { params, credentials } = getGlobalOptions(command);
+  const { params, credentials } = await getGlobalOptions(command);
 
   setAWSCredentials(credentials);
   await deleteParameter({ ...params, name });

@@ -85,7 +85,7 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
 export const command = async (templateName: string = Template.shell, command: Command): Promise<void> => {
 
   if (isValidTemplate(templateName)) {
-    const { params, credentials } = getGlobalOptions(command);
+    const { params, credentials } = await getGlobalOptions(command);
 
     setAWSCredentials(credentials);
     const response = await exportAsTemplate({ ...params, templateName });

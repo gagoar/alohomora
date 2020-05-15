@@ -7,7 +7,7 @@ program
   .name(packageJSON.name)
   .version(packageJSON.version)
   .description(packageJSON.description)
-  .requiredOption('-p, --prefix <prefix>', 'The prefix used to store the key (it should not start or end with a `/`, ex: if the path to the secret is `/my-app/[env]/secretName`, the prefix will be `my-app` )')
+  .option('-p, --prefix [prefix]', 'The prefix used to store the key (it should not start or end with a `/`, ex: if the path to the secret is `/my-app/[env]/secretName`, the prefix will be `my-app` )')
   .option('--aws-region [region]', 'The AWS region code where the secrets have been stored (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions)', 'us-east-1')
   .option(`--environment [environment]', 'The environment for the secrets [${Object.keys(Environment).join("|")}]`, 'all')
   .option('--aws-access-key-id [AWS_ACCESS_KEY_ID]', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html', undefined)

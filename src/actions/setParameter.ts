@@ -54,7 +54,7 @@ export const setParameter = async ({ name, value, description, prefix, region = 
 
 export const command = async (name: string, value: string, description: string | undefined, command: Command): Promise<void> => {
 
-  const { params, credentials } = getGlobalOptions(command);
+  const { params, credentials } = await getGlobalOptions(command);
 
   setAWSCredentials(credentials);
   const response = await setParameter({ ...params, name, value, description: description });

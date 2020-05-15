@@ -77,7 +77,7 @@ export const listParameters = async ({ environment, prefix, region = REGION }: O
 
 export const command = async (command: Command): Promise<void> => {
 
-  const { params, credentials } = getGlobalOptions(command);
+  const { params, credentials } = await getGlobalOptions(command);
 
   setAWSCredentials(credentials);
   const response = await listParameters(params);

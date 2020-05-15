@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["handler.ts", "src/**/*.ts", "jest.config.js"]
+  "include": ["index.ts", "src/**/*.ts", "jest.config.js"]
 }
