@@ -32,10 +32,10 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
+- [Built With](#built-with)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
@@ -52,12 +52,12 @@
   </a>
 </p>
 
-There are many libraries that deal with parameter store secrets, however, I didn't find one that really suit my needs so I created this one. I wanted to create a library that will solve all my needs when using secrets including exporting the key/secrets to different formats.
+Many libraries deal with parameter store secrets. However, I didn't find one that suits my needs, so I created this one. I wanted to develop a library that will solve all my needs while using secrets, including exporting the key/secrets to different formats
 
 Here's why:
 
-- Some solutions out there create their own prefix to store keys, not leaving much flexibility when trying to migrate if needed.
-- Exports were limited, not giving support to json output and possible others.
+- Some solutions out there create their prefix to store keys, not leaving much flexibility when trying to migrate if needed.
+- Exports were limited, not giving support to JSON output and possible others.
 
 ### Built With
 
@@ -72,8 +72,7 @@ Here's why:
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Here is an example of how you may give instructions to set up a local project. You should follow these simple steps to get a local copy up and running:
 
 ### Prerequisites
 
@@ -126,7 +125,7 @@ alohomora can get configuration from several places:
 
 ### CLI options
 
-If you are using it as a [global command](#installation) you can provide every option via cli:
+If you are using it as a [global command](#installation), you can provide all the options via cli:
 
 ```sh
   alo list --prefix my-company/my-app --aws-region us-west-2  --aws-profile myCustomAWSProfile --environment production
@@ -177,7 +176,7 @@ See the [open issues](https://github.com/gagoar/alohomora/issues) for a list of 
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
