@@ -1,26 +1,26 @@
-import SSM from "../__mocks__/aws-sdk/clients/ssm";
-import { deleteParameter } from "..";
+import SSM from '../__mocks__/aws-sdk/clients/ssm';
+import { deleteParameter } from '..';
 import { deleteCommand } from '../actions/commands';
-import { stopAndPersist, fail } from "../__mocks__/ora";
+import { stopAndPersist, fail } from '../__mocks__/ora';
 
-describe("deleteParameters", () => {
+describe('deleteParameters', () => {
   beforeEach(() => {
     stopAndPersist.mockReset();
     fail.mockReset();
   });
 
-  it("request fails", async () => {
-    const prefix = "my-company/my-app";
+  it('request fails', async () => {
+    const prefix = 'my-company/my-app';
 
     const handler = jest.fn().mockImplementationOnce(() => {
-      throw new Error("Some fatal error ocurred");
+      throw new Error('Some fatal error ocurred');
     });
 
     SSM.__setResponseForMethods({ deleteParameter: handler });
 
     const response = await deleteParameter({
-      name: "Vault_713",
-      environment: "production",
+      name: 'Vault_713',
+      environment: 'production',
       prefix,
     });
     expect(fail.mock.calls).toMatchInlineSnapshot(`
@@ -33,16 +33,16 @@ describe("deleteParameters", () => {
     expect(response).toBe(undefined);
   });
 
-  it("deletes the parameter", async () => {
-    const prefix = "my-company/my-app";
+  it('deletes the parameter', async () => {
+    const prefix = 'my-company/my-app';
 
     const handler = jest.fn(() => undefined);
 
     SSM.__setResponseForMethods({ deleteParameter: handler });
 
     const response = await deleteParameter({
-      name: "Vault_713",
-      environment: "production",
+      name: 'Vault_713',
+      environment: 'production',
       prefix,
     });
     expect(stopAndPersist.mock.calls).toMatchInlineSnapshot(`
@@ -58,10 +58,10 @@ describe("deleteParameters", () => {
     expect(response).toBe(undefined);
   });
 
-  it("deletes the parameter [ ParameterNotFound ]", async () => {
-    const prefix = "my-company/my-app";
+  it('deletes the parameter [ ParameterNotFound ]', async () => {
+    const prefix = 'my-company/my-app';
 
-    const error = { code: "ParameterNotFound", name: "ParameterNotFound" };
+    const error = { code: 'ParameterNotFound', name: 'ParameterNotFound' };
     const handler = jest.fn(() => {
       throw error;
     });
@@ -69,8 +69,8 @@ describe("deleteParameters", () => {
     SSM.__setResponseForMethods({ deleteParameter: handler });
 
     const response = await deleteParameter({
-      name: "Vault_713",
-      environment: "production",
+      name: 'Vault_713',
+      environment: 'production',
       prefix,
     });
     expect(stopAndPersist.mock.calls).toMatchInlineSnapshot(`

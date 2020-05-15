@@ -5,7 +5,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -194,9 +193,16 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-## Contact
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-Gago - [@gagoar](https://twitter.com/gagoar)
+<p align="center">
+  <a href="https://twitter.com/intent/follow?screen_name=shields_io">
+      <img src="https://img.shields.io/twitter/follow/gagoar?style=social&logo=twitter" alt="follow on Twitter">
+  </a>
+  <a href="https://twitter.com/intent/follow?screen_name=shields_io">
+      <img src="https://img.shields.io/twitter/follow/gagoar?style=social&logo=twitter" alt="follow on Twitter">
+  </a>
+</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -213,4 +219,3 @@ Gago - [@gagoar](https://twitter.com/gagoar)
 [license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/gagoar
-[product-screenshot]: images/cast.png

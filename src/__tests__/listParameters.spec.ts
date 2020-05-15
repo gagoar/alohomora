@@ -5,7 +5,7 @@ import { listCommand } from '../actions/commands';
 
 const realConsoleLog = console.log;
 const consoleLogMock = jest.fn();
-describe("listParameters", () => {
+describe('listParameters', () => {
   beforeAll(() => {
     global.console.log = consoleLogMock;
   });
@@ -17,7 +17,7 @@ describe("listParameters", () => {
   beforeEach(() => {
     consoleLogMock.mockReset();
   })
-  it("request fails", async () => {
+  it('request fails', async () => {
     const prefix = 'my-company/my-app';
 
     const handler = jest.fn()
@@ -30,7 +30,7 @@ describe("listParameters", () => {
 
   });
 
-  it("gets parameters", async () => {
+  it('gets parameters', async () => {
     const prefix = 'my-company/my-app';
 
     const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
@@ -40,7 +40,7 @@ describe("listParameters", () => {
     const response = await listParameters({ prefix, environment: 'production', cli: true });
     expect(response).toMatchSnapshot();
   });
-  it("gets parameters, using nextToken", async () => {
+  it('gets parameters, using nextToken', async () => {
     const prefix = 'my-company/my-app';
 
     const handler = jest.fn()

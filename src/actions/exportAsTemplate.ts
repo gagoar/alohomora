@@ -1,7 +1,7 @@
 import SSM from 'aws-sdk/clients/ssm';
 import groupBy from 'lodash.groupby';
 
-import { Options } from "../types";
+import { Options } from '../types';
 import { REGION, API_VERSION, MAX_RESULTS_FOR_PATH, Environment, Template } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 import { isValidTemplate } from '../utils/guards';

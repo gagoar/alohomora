@@ -33,10 +33,10 @@ export const getCustomConfiguration = async (): Promise<CustomConfig | void> => 
       loader.stopAndPersist({ text: `Custom configuration found in ${result.filepath}`, symbol: SUCCESS_SYMBOL });
       return result.config;
     } else {
-      loader.stopAndPersist({ text: `No custom Configuration configuration found`, symbol: SUCCESS_SYMBOL });
+      loader.stopAndPersist({ text: 'No custom Configuration configuration found', symbol: SUCCESS_SYMBOL });
     }
   } catch (e) {
-    loader.fail(`We encounter an error looking for custom configuration, we will use cli options`);
+    loader.fail('We encounter an error looking for custom configuration, we will use cli options');
   }
 }
 
