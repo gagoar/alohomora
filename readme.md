@@ -1,9 +1,6 @@
 ![workflow](https://github.com/gagoar/alohomora/workflows/alohomora/badge.svg)
 [![codecov](https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV)](https://codecov.io/gh/gagoar/alohomora)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/572336d13ec74669a40b7b26c23f58f5)](https://app.codacy.com/manual/xeroice/alohomora?utm_source=github.com&utm_medium=referral&utm_content=gagoar/alohomora&utm_campaign=Badge_Grade_Dashboard)[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/572336d13ec74669a40b7b26c23f58f5)](https://app.codacy.com/manual/xeroice/alohomora?utm_source=github.com&utm_medium=referral&utm_content=gagoar/alohomora&utm_campaign=Badge_Grade_Dashboard)
 [![MIT License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
