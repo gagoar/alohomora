@@ -45,7 +45,7 @@ describe("setParameters", () => {
 
     SSM.__setResponseForMethods({ putParameter: handler });
 
-    const response = await setParameter({ name: 'Vault_713', value: "Boggart", environment: 'production', prefix });
+    const response = await setParameter({ name: 'Vault_713', value: "Boggart", environment: 'production', prefix, cli: true });
     expect(response).toMatchSnapshot();
   });
 
