@@ -1,9 +1,9 @@
 {
   "name": "alohomora",
-  "repository": "git@github.com:webedx-spark/lambda-expressions.git",
+  "repository": "git@github.com:gagoar/alohomora.git",
   "license": "MIT",
   "version": "1.0.0",
-  "description": "✨ AWS Systems Manager Parameter Store (ssm) cli  🔏",
+  "description": "✨ A cli for AWS Systems Manager Parameter Store (ssm) 🔏",
   "main": "index.ts",
   "bin": "bin/cli.js",
   "scripts": {

@@ -1,21 +1,23 @@
 import program from 'commander';
 import { listCommand, getCommand, setCommand, deleteCommand, exportCommand } from '../actions/commands';
+import packageJSON from '../../package.json';
+import { Template, Environment } from '../utils/constants';
 
 program
-  .name('alohomora')
-  .version('1.0.0')
-  .description('✨AWS Systems Manager Parameter Store (ssm) cli 🔏')
-  .requiredOption('-p, --prefix <prefix>', 'the prefix used to store the key')
-  .option('--aws-region <region>', 'the aws region where the secret has been created, by default we use us-east-1')
-  .option('--environment <environment>', 'the environment where this key lives, by default we will list all environments')
-  .option('--aws-access-key-id <AWS_ACCESS_KEY_ID>', 'following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html')
-  .option('--aws-secret-access-key <AWS_SECRET_ACCESS_KEY>', 'following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html')
-  .option('--aws-session-token <AWS_SESSION_TOKEN>', 'following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html')
-  .option('--aws-profile <AWS_PROFILE>', ' following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html')
+  .name(packageJSON.name)
+  .version(packageJSON.version)
+  .description(packageJSON.description)
+  .requiredOption('-p, --prefix <prefix>', 'The prefix used to store the key (it should not start or end with a `/`, ex: if the path to the secret is `/my-app/[env]/secretName`, the prefix will be `my-app` )')
+  .option('--aws-region <region>', 'The AWS region code where the secrets have been stored (default us-east-1), for more info https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions')
+  .option(`--environment <environment>', 'The environment for the secrets, the available environments are: [${Object.keys(Environment).join("|")}]`)
+  .option('--aws-access-key-id <AWS_ACCESS_KEY_ID>', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html')
+  .option('--aws-secret-access-key <AWS_SECRET_ACCESS_KEY>', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html')
+  .option('--aws-session-token <AWS_SESSION_TOKEN>', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html')
+  .option('--aws-profile <AWS_PROFILE>', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html')
 
 program
   .command('list')
-  .description('List all the environment variables under a given prefix')
+  .description('List all the secrets (without values) under a given prefix')
   .action(listCommand);
 
 program
@@ -25,17 +27,17 @@ program
 
 program
   .command('set <name> <value> [description]')
-  .description('Set secret')
+  .description('Set/Create/Update a secret')
   .action(setCommand);
 
 program
   .command('delete <name>')
-  .description('delete secret, if environment is not provided it will only delete the secret matching environment all')
+  .description('Delete a secret, if no environment is provided, it will only delete the secret matching environment all')
   .action(deleteCommand);
 
 program
   .command('export [templateName]')
-  .description('export all keys, a template can be chosen between json or shell, by default it uses shell')
+  .description(`Export all secrets (including decrypted values), a template can be chosen between [${Object.keys(Template).join("|")}], by default it uses shell`)
   .action(exportCommand);
 
 program.parse(process.argv);
