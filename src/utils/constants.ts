@@ -19,3 +19,8 @@ export enum Template {
   json = 'json',
 
 }
+
+export const DISABLE_TABLE_COLORS = {
+  head: []    //disable colors in header cells
+  , border: []  //disable colors for the border
+} 

@@ -45,6 +45,7 @@ describe("getGlobalOptions", () => {
           "sessionToken": undefined,
         },
         "params": Object {
+          "cli": false,
           "environment": "production",
           "prefix": "my-company/my-app",
           "region": "us-west-2",
@@ -69,7 +70,9 @@ describe("getGlobalOptions", () => {
 
   it("there's an unexpected error retrieving the data", async () => {
     const mockExit = mockProcessExit();
-    search.mockImplementation(() => { throw new Error('something horrible happened') });
+    search.mockImplementation(() => {
+      throw new Error("something horrible happened");
+    });
 
     await getGlobalOptions({ parent: {} });
 
@@ -82,7 +85,7 @@ describe("getGlobalOptions", () => {
       Promise.resolve({
         isEmpty: false,
         filepath: "/some/package.json",
-        config: 'vault713',
+        config: "vault713",
       })
     );
     await getGlobalOptions({ parent: {} });
@@ -97,7 +100,7 @@ describe("getGlobalOptions", () => {
         isEmpty: false,
         filepath: "/some/package.json",
         config: {
-          randomkey: 'bla'
+          randomkey: "bla",
         },
       })
     );

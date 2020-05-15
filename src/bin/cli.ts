@@ -14,6 +14,7 @@ program
   .option('--aws-secret-access-key [AWS_SECRET_ACCESS_KEY]', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html', undefined)
   .option('--aws-session-token [AWS_SESSION_TOKEN]', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html', undefined)
   .option('--aws-profile [AWS_PROFILE]', 'Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html', undefined)
+  .option('--cli', 'Removes colors to avoid odd input', false)
 
 program
   .command('list')
