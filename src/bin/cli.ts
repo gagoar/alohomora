@@ -1,10 +1,5 @@
 import program from 'commander';
-import { setAWSCredentials } from '../utils/setAWSCredentials';
-import { deleteParameter, exportAsTemplate } from '../';
-import { listCommand, getCommand, setCommand } from '../actions/commands';
-import { isValidTemplate } from '../utils/guards';
-import { Template } from '../utils/constants';
-import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
+import { listCommand, getCommand, setCommand, deleteCommand, exportCommand } from '../actions/commands';
 
 program
   .name('alohomora')
@@ -32,35 +27,15 @@ program
   .command('set <name> <value> [description]')
   .description('Set secret')
   .action(setCommand);
-  .action();
 
 program
   .command('delete <name>')
   .description('delete secret, if environment is not provided it will only delete the secret matching environment all')
-  .action(async (name: string, command: Command): Promise<void> => {
-
-    const { params, credentials } = getGlobalOptions(command);
-
-    setAWSCredentials(credentials);
-    await deleteParameter({ ...params, name });
-  });
+  .action(deleteCommand);
 
 program
   .command('export [templateName]')
   .description('export all keys, a template can be chosen between json or shell, by default it uses shell')
-  .action(async (templateName: string = Template.shell, command: Command): Promise<void> => {
-
-    if (isValidTemplate(templateName)) {
-      const { params, credentials } = getGlobalOptions(command);
-
-      setAWSCredentials(credentials);
-      const response = await exportAsTemplate({ ...params, templateName });
-      console.log(response);
-    } else {
-      console.error(`please provide a valid templateName (${Template})`);
-      process.exit(1)
-    }
-
-  });
+  .action(exportCommand);
 
 program.parse(process.argv);

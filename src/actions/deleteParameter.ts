@@ -4,6 +4,8 @@ import ora from 'ora';
 
 import { Options } from '../types';
 import { REGION, API_VERSION, Environment, SUCCESS_SYMBOL } from '../utils/constants';
+import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
 
 
 interface Input extends Options {
@@ -33,4 +35,13 @@ export const deleteParameter = async ({ name, prefix, region = REGION, environme
       loader.fail(`Something went wrong deleting the key ${keyName}, ${e}`);
     }
   }
+}
+
+
+export const command = async (name: string, command: Command): Promise<void> => {
+
+  const { params, credentials } = getGlobalOptions(command);
+
+  setAWSCredentials(credentials);
+  await deleteParameter({ ...params, name });
 }

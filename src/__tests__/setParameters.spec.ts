@@ -58,6 +58,5 @@ describe("setParameters", () => {
     await setCommand('Vault_713', 'Boggart', 'A serious artifact', { parent: { prefix } });
 
     expect(consoleLogMock).toHaveBeenCalled();
-    expect(consoleLogMock).toHaveBeenCalled();
   });
 });

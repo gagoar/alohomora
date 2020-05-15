@@ -37,7 +37,7 @@ describe("listParameters", () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix });
+    const response = await listParameters({ prefix, environment: 'production' });
     expect(response).toMatchSnapshot();
   });
   it("gets parameters, using nextToken", async () => {

@@ -4,6 +4,9 @@ import groupBy from 'lodash.groupby';
 import { Options } from "../types";
 import { REGION, API_VERSION, MAX_RESULTS_FOR_PATH, Environment, Template } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
+import { isValidTemplate } from '../utils/guards';
+import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
 interface Input extends Options { templateName?: Template, custom?: string };
 
 const getParametersByPath = async (params: SSM.GetParametersByPathRequest, region: string): Promise<SSM.ParameterList> => {
@@ -77,3 +80,19 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
   }
 
 };
+
+
+export const command = async (templateName: string = Template.shell, command: Command): Promise<void> => {
+
+  if (isValidTemplate(templateName)) {
+    const { params, credentials } = getGlobalOptions(command);
+
+    setAWSCredentials(credentials);
+    const response = await exportAsTemplate({ ...params, templateName });
+    console.log(response);
+  } else {
+    console.error(`please provide a valid templateName (${Template})`);
+    process.exit(1)
+  }
+
+}

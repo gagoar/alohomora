@@ -1,5 +1,6 @@
 import SSM from "../__mocks__/aws-sdk/clients/ssm";
 import { deleteParameter } from "..";
+import { deleteCommand } from '../actions/commands';
 import { stopAndPersist, fail } from "../__mocks__/ora";
 
 describe("deleteParameters", () => {
@@ -83,5 +84,16 @@ describe("deleteParameters", () => {
       ]
     `);
     expect(response).toBe(undefined);
+  });
+
+  it('via command invocation', async () => {
+    const prefix = 'my-company/my-app';
+    const handler = jest.fn(() => undefined);
+
+    SSM.__setResponseForMethods({ deleteParameter: handler });
+
+    await deleteCommand('Vault_713', { parent: { prefix } });
+
+    expect(stopAndPersist).toHaveBeenCalled();
   });
 });

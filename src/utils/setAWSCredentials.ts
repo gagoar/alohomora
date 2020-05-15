@@ -11,10 +11,6 @@ export type Credentials = {
 };
 
 export const setAWSCredentials = (credentialsOptions: CredentialsOptions | null) => {
-  if (!credentialsOptions) {
-    return;
-  }
-
   if (isProfileCredentials(credentialsOptions)) {
     AWS.config.credentials = new SharedIniFileCredentials({ profile: credentialsOptions.profile });
     return;
@@ -23,4 +19,6 @@ export const setAWSCredentials = (credentialsOptions: CredentialsOptions | null)
   if (isAccessKeyCredentials(credentialsOptions)) {
     AWS.config.credentials = credentialsOptions;
   }
+
+  return;
 };

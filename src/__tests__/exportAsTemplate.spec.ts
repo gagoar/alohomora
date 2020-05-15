@@ -1,21 +1,27 @@
+import { mockProcessExit } from 'jest-mock-process';
 import getParametersByPathPayload from "../__mocks__/getParametersByPath.json";
 import SSM from "../__mocks__/aws-sdk/clients/ssm";
-// import { stopAndPersist, fail } from "../__mocks__/ora";
 import { exportAsTemplate } from "..";
+import { exportCommand } from "../actions/commands";
 import { Template } from "../utils/constants";
 
 const realConsoleLog = global.console.log;
 const consoleLogMock = jest.fn();
+const realConsoleError = global.console.error;
+const consoleErrorMock = jest.fn();
 describe("exportAsTemplate", () => {
   beforeEach(() => {
-    global.console.error = consoleLogMock;
+    global.console.error = consoleErrorMock;
+    global.console.log = consoleLogMock;
   });
 
   afterAll(() => {
     global.console.error = realConsoleLog;
+    global.console.log = realConsoleError;
   });
 
   afterEach(() => {
+    consoleErrorMock.mockReset();
     consoleLogMock.mockReset();
   });
   it("request fails", async () => {
@@ -31,7 +37,7 @@ describe("exportAsTemplate", () => {
       await exportAsTemplate({ prefix });
     } catch (e) {
       expect(e).toMatchInlineSnapshot(`[Error: Some fatal error ocurred]`);
-      expect(consoleLogMock.mock.calls).toMatchInlineSnapshot(`
+      expect(consoleErrorMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "We found an error trying to retrieve secrets",
@@ -85,5 +91,39 @@ describe("exportAsTemplate", () => {
     });
     expect(response).toMatchSnapshot();
     expect(handler).toHaveBeenCalledTimes(2);
+  });
+
+  it('via command invocation, with default template', async () => {
+    const prefix = 'my-company/my-app';
+    const handler = jest.fn(() => ({ Parameters: getParametersByPathPayload }));
+
+    SSM.__setResponseForMethods({ getParametersByPath: handler });
+
+    await exportCommand(undefined, { parent: { prefix } });
+
+    expect(consoleLogMock).toHaveBeenCalled();
+  });
+
+  it('via command invocation, with a valid template', async () => {
+    const prefix = 'my-company/my-app';
+    const handler = jest.fn(() => ({ Parameters: getParametersByPathPayload }));
+
+    SSM.__setResponseForMethods({ getParametersByPath: handler });
+
+    await exportCommand('json', { parent: { prefix } });
+
+    expect(consoleLogMock).toHaveBeenCalled();
+  });
+  it('via command invocation, with invalid template', async () => {
+    const prefix = 'my-company/my-app';
+
+    const mockExit = mockProcessExit();
+    const handler = jest.fn(() => ({ Parameters: getParametersByPathPayload }));
+
+    SSM.__setResponseForMethods({ getParametersByPath: handler });
+
+    await exportCommand('boggart', { parent: { prefix } });
+
+    expect(mockExit).toHaveBeenCalledWith(1);
   });
 });
