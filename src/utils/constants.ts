@@ -12,15 +12,15 @@ export enum Environment {
   staging = 'staging',
   test = 'test',
   all = 'all'
-}
+};
 
 export enum Template {
   shell = 'shell',
   json = 'json',
 
-}
+};
 
 export const DISABLE_TABLE_COLORS = {
   head: []    //disable colors in header cells
   , border: []  //disable colors for the border
-} 
+};
