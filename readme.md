@@ -106,10 +106,28 @@ Every command accepts several options via cli or via custom configuration [see c
   alo list --prefix my-company/my-app
 ```
 
-### Get secrets.
+### Get a secret.
 
 ```sh
-  alo list --prefix my-company/my-app
+  alo get SECRET_KEY_NAME --prefix my-company/my-app
+```
+
+### Set/Update/Create a secret.
+
+```sh
+  alo set SECRET_KEY_NAME VALUE --prefix my-company/my-app --environment development
+```
+
+### Delete a secret.
+
+```sh
+  alo delete SECRET_KEY_NAME --prefix my-company/my-app --environment production
+```
+
+### Export secrets
+
+```sh
+  alo export json --prefix my-company/my-app --environment production
 ```
 
 <!-- CONFIGURATION -->
@@ -119,6 +137,22 @@ Every command accepts several options via cli or via custom configuration [see c
 alohomora can get configuration from several places:
 
 ### CLI options
+
+- prefix (`--prefix`): The prefix used to store the keys (it should not start or end with a `/`, ex: if the path to the secret is `/my-app/[env]/secretName`, the prefix will be `my-app` )
+
+- aws region (`--aws-region`): The AWS region code where the secrets will be stored (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions)', `default: us-east-1`
+
+- environment (`--environment`): It will be used to filter the secrets (production, staging, test, all), `default: all`
+
+- aws access key id (`--aws-access-key-id`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
+
+- aws secret access key (`--aws-secret-access-key`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
+
+- aws-session-token (`--aws-session-token`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
+
+- aws profile (`--aws-profile`): Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html
+
+- cli (`--cli`): Removes colors to avoid odd input. `default: false`
 
 If you are using it as a [global command](#installation), you can provide all the options via cli:
 
@@ -187,13 +221,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <p align="center">
-  <a href="https://twitter.com/intent/follow?screen_name=shields_io">
-      <img src="https://img.shields.io/twitter/follow/gagoar?style=social&logo=twitter" alt="follow on Twitter">
+  <a href="https://linkedin.com/in/gagoar">
+      <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555" alt="follow on Twitter">
   </a>
-  <a href="https://twitter.com/intent/follow?screen_name=shields_io">
+    <a href="https://twitter.com/intent/follow?screen_name=gagoar">
       <img src="https://img.shields.io/twitter/follow/gagoar?style=social&logo=twitter" alt="follow on Twitter">
   </a>
 </p>
@@ -211,5 +243,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-url]: https://github.com/gagoar/alohomora/issues
 [license-shield]: https://img.shields.io/github/license/gagoar/alohomora.svg?style=flat-square
 [license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/gagoar
