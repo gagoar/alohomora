@@ -30,13 +30,17 @@ jobs:
         run: |
           npm install
       - name: Jest
-        run: npm run test
+        run: npm run test --coverage
       - name: Send coverage to codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/clover.xml
           flags: unittests
+      - name: Send coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./coverage/clover.xml
 
   build:
     name: Run build
