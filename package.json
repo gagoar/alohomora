@@ -3,7 +3,7 @@
   "repository": "git@github.com:gagoar/alohomora.git",
   "license": "MIT",
   "version": "1.0.0",
-  "description": "✨ A cli for AWS Systems Manager Parameter Store (ssm) 🔏",
+  "description": "✨ A cli that makes using AWS Parameter Store... as simple as the flick of a wand 🧙",
   "main": "index.ts",
   "bin": {
     "alo": "dist/index.js"
@@ -44,7 +44,11 @@
       "project": "./tsconfig.eslint.json"
     },
     "rules": {
-      "quotes": [2, "single", "avoid-escape"],
+      "quotes": [
+        2,
+        "single",
+        "avoid-escape"
+      ],
       "no-debugger": "error",
       "no-process-env": "off",
       "import/prefer-default-export": "off",

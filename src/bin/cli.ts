@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import program from 'commander';
 import { listCommand, getCommand, setCommand, deleteCommand, exportCommand } from '../actions/commands';
 import packageJSON from '../../package.json';
