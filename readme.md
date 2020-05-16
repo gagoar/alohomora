@@ -13,7 +13,7 @@
   <h3 align="center">Alohomora</h3>
 
   <p align="center">
-    ✨A cli for AWS Systems Manager Parameter Store (ssm) 🔏
+    ✨ A cli that makes using AWS Parameter Store... as simple as the flick of a wand 🧙
     <br />
     <a href="https://github.com/gagoar/alohomora#table-of-contents"><strong>Explore the docs »</strong></a>
     <br />
