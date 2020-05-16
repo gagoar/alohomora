@@ -242,4 +242,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-shield]: https://img.shields.io/github/issues/gagoar/alohomora.svg?style=flat-square
 [issues-url]: https://github.com/gagoar/alohomora/issues
 [license-shield]: https://img.shields.io/github/license/gagoar/alohomora.svg?style=flat-square
-[license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE.txt
+[license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE
