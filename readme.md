@@ -51,8 +51,8 @@ Many libraries deal with parameter store secrets. However, I didn't find one tha
 
 Here's why:
 
-- Some solutions out there create their prefix to store keys, not leaving much flexibility when trying to migrate if needed.
-- Exports were limited, not giving support to JSON output and possible others.
+- Many solutions require prefixes to store keys, making it difficult to migrate when needed.
+- Support for exporting keys to widely accepted file formats such as JSON was limited.
 
 ### Built With
 
@@ -67,28 +67,28 @@ Here's why:
 
 ## Getting Started
 
-Here is an example of how you may give instructions to set up a local project. You should follow these simple steps to get a local copy up and running:
+Below is an example of instructions you can integrate into your own project's _Getting Started_ section. You can follow these simple steps to get a local copy up and running:
 
 ### Prerequisites
 
-- node 8 or higher
+- Node 8 or higher
 - AWS credentials to your account. ([more info here](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html))
 
 ### Installation
 
-If you wish to use it as a stand alone utility:
+If you wish to use `alohamora` as a standalone utility:
 
 ```sh
 npm -g install alohomora
 ```
 
-It will make the command `alo` available in your command line
+This will make the `alo` command available in your terminal.
 
 ```sh
 alo --help
 ```
 
-If instead you would like to have it on a particular package.
+If instead you would like to add it to a package:
 
 ```sh
 npm install --only=dev alohomora
@@ -98,7 +98,7 @@ npm install --only=dev alohomora
 
 ## Usage
 
-Every command accepts several options via cli or via custom configuration [see configuration for more](#configuration)
+Every command accepts several options through command line or custom configuration [see configuration for more](#configuration)
 
 ### List secrets.
 
@@ -134,27 +134,27 @@ Every command accepts several options via cli or via custom configuration [see c
 
 ## Configuration
 
-alohomora can get configuration from several places:
+You can configurate `alohomora` from several places:
 
 ### CLI options
 
-- prefix (`--prefix`): The prefix used to store the keys (it should not start or end with a `/`, ex: if the path to the secret is `/my-app/[env]/secretName`, the prefix will be `my-app` )
+- **Prefix** (`--prefix`): The prefix used to store the keys (it should not start or end with a `/`, ex: if the path to the secret is `/my-app/[env]/secretName`, the prefix will be `my-app` )
 
-- aws region (`--aws-region`): The AWS region code where the secrets will be stored (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions)', `default: us-east-1`
+- **AWS region** (`--aws-region`): The AWS region code where the secrets will be stored (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions)', `default: us-east-1`
 
-- environment (`--environment`): It will be used to filter the secrets (production, staging, test, all), `default: all`
+- **Environment** (`--environment`): It will be used to filter the secrets (production, staging, test, all), `default: all`
 
-- aws access key id (`--aws-access-key-id`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
+- **AWS Access Key ID** (`--aws-access-key-id`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
 
-- aws secret access key (`--aws-secret-access-key`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
+- **AWS Secret Access Key** (`--aws-secret-access-key`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
 
-- aws-session-token (`--aws-session-token`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
+- **AWS Session Token** (`--aws-session-token`): Credentials following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
 
-- aws profile (`--aws-profile`): Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html
+- **AWS Profile** (`--aws-profile`): Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html
 
-- cli (`--cli`): Removes colors to avoid odd input. `default: false`
+- **CLI flag** (`--cli`): Removes colors to avoid odd input. `default: false`
 
-If you are using it as a [global command](#installation), you can provide all the options via cli:
+If you are using `alo` as a [global command](#installation), you can provide all the above options via command line:
 
 ```sh
   alo list --prefix my-company/my-app --aws-region us-west-2  --aws-profile myCustomAWSProfile --environment production
@@ -187,7 +187,7 @@ You can also define custom configuration in your package:
 }
 ```
 
-When the command is invoked it will take the key `alohomora` as configuration.
+When the command is invoked it will look for the `alohomora` configuration block.
 
 ```bash
 (my-package)$ npm run secrets
@@ -242,4 +242,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-shield]: https://img.shields.io/github/issues/gagoar/alohomora.svg?style=flat-square
 [issues-url]: https://github.com/gagoar/alohomora/issues
 [license-shield]: https://img.shields.io/github/license/gagoar/alohomora.svg?style=flat-square
-[license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE.txt
+[license-url]: https://github.com/gagoar/alohomora/blob/master/LICENSE
