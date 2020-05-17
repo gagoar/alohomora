@@ -1,4 +1,4 @@
-import Table from 'cli-table3';
+import Table, { HorizontalAlignment } from 'cli-table3';
 import colors from 'colors/safe';
 import dateFormat from 'dateformat';
 import ora from 'ora';
@@ -49,8 +49,8 @@ const getTableHeader = (groupBy: Input['groupBy']) => {
   return HEADERS[groupBy];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createTable = (head: Table.TableOptions['head'] | undefined, content: any[], style?: Table.TableConstructorOptions['style']) => {
+type TableContent = Table.HorizontalTableRow | Table.VerticalTableRow | Table.CrossTableRow;
+const createTable = (head: Table.TableOptions['head'] | undefined, content: TableContent[], style?: Table.TableConstructorOptions['style']) => {
 
   const table = new Table({
     head,
@@ -114,7 +114,7 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
 
         const label = `${GroupBy[groupBy]}: ${group}`;
 
-        const groupByLabel = [{ colSpan: 3, hAlign: 'center', content: ci ? label : colors.red(label) }];
+        const groupByLabel = [{ colSpan: 3, hAlign: 'center' as HorizontalAlignment, content: ci ? label : colors.red(label) }];
         const header = ci ? getTableHeader(groupBy) : getTableHeader(groupBy).map(value => colors.red(value));
 
         const table = createTable(undefined, [groupByLabel, header, ...values], styles);
