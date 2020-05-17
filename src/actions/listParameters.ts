@@ -1,4 +1,5 @@
-import Table from 'cli-table3';
+import Table, { HorizontalAlignment } from 'cli-table3';
+import colors from 'colors/safe';
 import dateFormat from 'dateformat';
 import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
@@ -8,6 +9,7 @@ import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCR
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
+import group from 'lodash.groupby';
 
 const getUser = (lastModifiedUser: string): string => {
   return lastModifiedUser.split('user/')[1];
@@ -25,14 +27,45 @@ const describeParameters = async (params: SSM.DescribeParametersRequest, region:
   }
 }
 
-export const listParameters = async ({ environment, prefix, region = REGION, ci = false }: Actions): Promise<string> => {
+enum GroupBy {
+  name = 'name',
+  environment = 'environment'
+}
+interface Input extends Actions {
+  groupBy?: keyof typeof GroupBy
+}
 
-  const loader = ora(`Finding keys with the prefix /${prefix}  (${region})`).start();
+
+const HEADERS: Record<keyof typeof GroupBy, string[]> = {
+  'environment': ['Name', 'Updated by', 'Updated at'],
+  'name': ['Environment', 'Updated by', 'Updated at']
+}
+
+const getTableHeader = (groupBy: Input['groupBy']) => {
+  if (!groupBy) {
+    return ['Name', 'Environment', 'Updated by', 'Updated at'];
+  }
+
+  return HEADERS[groupBy];
+}
+
+type TableContent = Table.HorizontalTableRow | Table.VerticalTableRow | Table.CrossTableRow;
+const createTable = (head: Table.TableOptions['head'] | undefined, content: TableContent[], style?: Table.TableConstructorOptions['style']) => {
 
   const table = new Table({
-    head: ['Name', 'Environment', 'Updated by', 'Updated at'],
-    style: ci ? DISABLE_TABLE_COLORS : undefined
+    head,
+    style
   });
+
+  table.push(...content);
+  return table;
+}
+
+export const listParameters = async ({ environment, prefix, region = REGION, ci = false, groupBy }: Input): Promise<string> => {
+
+
+  const content = [];
+  const loader = ora(`Finding keys with the prefix /${prefix}  (${region})`).start();
 
   const path = environment ? `/${prefix}/${environment}/` : `/${prefix}`;
 
@@ -66,22 +99,59 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
       return 0;
     })
 
-    table.push(...keys);
+    const styles = ci ? DISABLE_TABLE_COLORS : undefined;
+
+    if (!groupBy) {
+      const table = createTable(getTableHeader(groupBy), keys, styles);
+      content.push(table.toString());
+    } else {
+      const groups = group(keys, tuple => groupBy === GroupBy.name ? tuple[0] : tuple[1]);
+
+      const finalGroups = Object.keys(groups).map(group => {
+        const values = groups[group].map(tuple =>
+          groupBy === GroupBy.name ? [tuple[1], tuple[2], tuple[3]] : [tuple[0], tuple[2], tuple[3]]
+        );
+
+        const label = `${GroupBy[groupBy]}: ${group}`;
+
+        const groupByLabel = [{ colSpan: 3, hAlign: 'center' as HorizontalAlignment, content: ci ? label : colors.red(label) }];
+        const header = ci ? getTableHeader(groupBy) : getTableHeader(groupBy).map(value => colors.red(value));
+
+        const table = createTable(undefined, [groupByLabel, header, ...values], styles);
+
+        return table.toString();
+      });
+      content.push(...finalGroups);
+    }
 
     loader.stopAndPersist({ text: `found ${parameters.length} secrets, under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
   } catch (e) {
     loader.fail(`we found an error: ${e}`);
   }
 
-  return parameters.length ? table.toString() : '';
+  return parameters.length ? content.join('\n') : '';
 }
 
-export const command = async (command: Command): Promise<void> => {
+const isValidGroupBy = (groupBy: string | undefined): groupBy is keyof typeof GroupBy | undefined => {
+  return groupBy === undefined || Object.keys(GroupBy).includes(groupBy);
+};
+
+interface CommandList extends Command {
+  groupBy?: string
+};
+
+export const command = async (command: CommandList): Promise<void> => {
+
+  if (!isValidGroupBy(command.groupBy)) {
+    console.error(`groupBy is no valid, please try ${Object.keys(GroupBy).join(' | ')}`);
+    process.exit(1);
+  }
 
   const { params, credentials } = await getGlobalOptions(command);
 
   setAWSCredentials(credentials);
-  const response = await listParameters(params);
+
+  const response = await listParameters({ ...params, groupBy: command.groupBy });
 
   console.log(response);
 };
