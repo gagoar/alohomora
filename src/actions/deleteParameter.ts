@@ -2,13 +2,13 @@ import SSM from 'aws-sdk/clients/ssm';
 import { AWSError } from 'aws-sdk/lib/core';
 import ora from 'ora';
 
-import { Options } from '../types';
+import { Actions } from '../types';
 import { REGION, API_VERSION, Environment, SUCCESS_SYMBOL } from '../utils/constants';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
 
 
-interface Input extends Options {
+interface Input extends Actions {
   name: string;
 
 };

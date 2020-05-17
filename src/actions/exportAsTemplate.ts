@@ -1,13 +1,13 @@
 import SSM from 'aws-sdk/clients/ssm';
 import groupBy from 'lodash.groupby';
 
-import { Options } from '../types';
+import { Actions } from '../types';
 import { REGION, API_VERSION, MAX_RESULTS_FOR_PATH, Environment, Template } from '../utils/constants';
 import { normalizeSecretKey } from '../utils/normalizeSecretKey';
 import { isValidTemplate } from '../utils/guards';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
-interface Input extends Options { templateName?: Template, custom?: string };
+interface Input extends Actions { templateName?: Template, custom?: string };
 
 const getParametersByPath = async (params: SSM.GetParametersByPathRequest, region: string): Promise<SSM.ParameterList> => {
 

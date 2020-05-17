@@ -152,7 +152,7 @@ You can configurate `alohomora` from several places:
 
 - **AWS Profile** (`--aws-profile`): Following https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html
 
-- **CLI flag** (`--cli`): Removes colors to avoid odd input. `default: false`
+- **CI flag** (`--ci`): Removes colors to avoid odd input. `default: false`
 
 If you are using `alo` as a [global command](#installation), you can provide all the above options via command line:
 

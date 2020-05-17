@@ -25,7 +25,7 @@ describe('listParameters', () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix, cli: true });
+    const response = await listParameters({ prefix, ci: true });
     expect(response).toMatchSnapshot();
 
   });
@@ -37,7 +37,7 @@ describe('listParameters', () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix, environment: 'production', cli: true });
+    const response = await listParameters({ prefix, environment: 'production', ci: true });
     expect(response).toMatchSnapshot();
   });
   it('gets parameters, using nextToken', async () => {
@@ -49,7 +49,7 @@ describe('listParameters', () => {
 
     SSM.__setResponseForMethods({ describeParameters: handler });
 
-    const response = await listParameters({ prefix, cli: true });
+    const response = await listParameters({ prefix, ci: true });
     expect(response).toMatchSnapshot();
     expect(handler).toHaveBeenCalledTimes(2);
   });
