@@ -1,8 +1,8 @@
 import { CustomConfig, getCustomConfiguration } from './getCustomConfiguration';
 
-interface Options { cli?: boolean, prefix?: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
+interface Options { ci?: boolean, prefix?: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
 type PossibleCredentials = { profile?: string, accessKeyId?: string, secretAccessKey?: string, sessionToken?: string };
-type Parameters = { prefix: string, region?: string, environment?: string, cli?: boolean }
+type Parameters = { prefix: string, region?: string, environment?: string, ci?: boolean }
 export interface Command { parent: Options }
 export const getGlobalOptions = async (command: Command): Promise<{ params: Parameters, credentials: PossibleCredentials }> => {
   let customConfiguration: CustomConfig | void
@@ -16,7 +16,7 @@ export const getGlobalOptions = async (command: Command): Promise<{ params: Para
       awsAccessKeyId: accessKeyId,
       awsSecretAccessKey: secretAccessKey,
       awsSessionToken: sessionToken,
-      cli = false
+      ci = false
     }
   } = command
 
@@ -38,7 +38,7 @@ export const getGlobalOptions = async (command: Command): Promise<{ params: Para
   } else {
     return {
       credentials,
-      params: { prefix, environment, region, cli }
+      params: { prefix, environment, region, ci }
     }
   }
 }

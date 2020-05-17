@@ -1,4 +1,4 @@
 
 import { Environment } from './utils/constants';
 
-export interface Options { environment?: Environment | string, prefix: string, region?: string, cli?: boolean };
+export interface Actions { environment?: Environment | string, prefix: string, region?: string, ci?: boolean };
