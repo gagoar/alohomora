@@ -21,6 +21,7 @@ program
 program
   .command('list')
   .description('List all the secrets (without values) under a given prefix')
+  .option('--groupBy [name | environment]', 'lists secrets by name or environment', undefined)
   .action(listCommand);
 
 program

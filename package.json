@@ -94,9 +94,11 @@
   "dependencies": {
     "aws-sdk": "^2.674.0",
     "cli-table3": "^0.6.0",
+    "colors": "^1.4.0",
     "commander": "^5.1.0",
     "cosmiconfig": "^6.0.0",
     "dateformat": "^3.0.3",
+    "lodash.flatten": "^4.4.0",
     "lodash.groupby": "^4.6.0",
     "ora": "^4.0.4"
   },
@@ -104,6 +106,7 @@
     "@types/dateformat": "^3.0.1",
     "@types/debug": "^4.1.5",
     "@types/jest": "^25.2.1",
+    "@types/lodash.flatten": "^4.4.6",
     "@types/lodash.groupby": "^4.6.6",
     "@types/node": "^13.11.0",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
