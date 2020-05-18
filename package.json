@@ -112,8 +112,8 @@
     "@zeit/ncc": "0.22.1",
     "ajv-keywords": "3.4.1",
     "auto-changelog": "2.0.0",
-    "bufferutil": "^4.0.1",
-    "canvas": "^2.6.1",
+    "bufferutil": "4.0.1",
+    "canvas": "2.6.1",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.11.0",
     "husky": "4.2.5",
@@ -129,6 +129,6 @@
     "ts-node": "8.10.1",
     "tslib": "2.0.0",
     "typescript": "3.9.2",
-    "utf-8-validate": "^5.0.2"
+    "utf-8-validate": "5.0.2"
   }
 }
