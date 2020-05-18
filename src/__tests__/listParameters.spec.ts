@@ -129,4 +129,16 @@ describe('listParameters', () => {
       ]
     `);
   });
+
+  it('via command invocation, with a valid groupBy', async () => {
+    const prefix = 'my-company/my-app';
+    const mockExit = mockProcessExit();
+    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
+    SSM.__setResponseForMethods({ describeParameters: handler });
+
+    await listCommand({ parent: { prefix }, groupBy: 'name' });
+
+    expect(mockExit).not.toHaveBeenCalled();
+
+  });
 });
