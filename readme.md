@@ -1,13 +1,5 @@
 <!-- PROJECT LOGO -->
-<br />
 <p align="center">
-  <a href="https://github.com/gagoar/alohomora">
-    <img src="images/logo.png" alt="Logo" width="128" height="128">
-  </a>
-
-  <h3 align="center">Alohomora</h3>
-
-  <p align="center">
     <a href="https://www.npmjs.com/package/alohomora">
       <img src="https://img.shields.io/npm/v/alohomora/latest.svg?style=flat-square" alt="NPM Version" />
     </a>
@@ -17,15 +9,22 @@
     <a href="https://codecov.io/gh/gagoar/alohomora">
       <img src="https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV" alt="codecov" />
     </a>
-      <a href="https://github.com/gagoar/alohomora/blob/master/LICENSE">
+    <a href="https://github.com/gagoar/alohomora/blob/master/LICENSE">
       <img src="https://img.shields.io/npm/l/alohomora.svg?style=flat-square" alt="MIT license" />
-      </a>
-  </p>
+    </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/gagoar/alohomora">
+    <img src="images/logo.png" alt="Logo" width="128" height="128">
+  </a>
+
+  <h3 align="center">Alohomora</h3>
+
   <p align="center">
     ✨ A cli that makes using AWS Parameter Store... as simple as the flick of a wand 🧙
     <br />
     <a href="https://github.com/gagoar/alohomora#table-of-contents"><strong>Explore the docs »</strong></a>
-    <br />
     <br />
     <a href="https://github.com/gagoar/alohomora/issues">Report Bug</a>
     ·
