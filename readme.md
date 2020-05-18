@@ -1,8 +1,3 @@
-![workflow](https://github.com/gagoar/alohomora/workflows/alohomora/badge.svg)
-[![codecov](https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV)](https://codecov.io/gh/gagoar/alohomora)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/572336d13ec74669a40b7b26c23f58f5)](https://app.codacy.com/manual/xeroice/alohomora?utm_source=github.com&utm_medium=referral&utm_content=gagoar/alohomora&utm_campaign=Badge_Grade_Dashboard)
-[![MIT License][license-shield]][license-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -12,6 +7,20 @@
 
   <h3 align="center">Alohomora</h3>
 
+  <p align="center">
+    <a href="https://www.npmjs.com/package/@typescript-eslint/parser">
+      <img src="https://img.shields.io/npm/v/alohomora/latest.svg?style=flat-square" alt="NPM Version" />
+    </a>
+    <a href="https://github.com/gagoar/alohomora/actions">
+      <img src="https://github.com/gagoar/alohomora/workflows/alohomora/badge.svg" alt="Workflow" />
+    </a>
+    <a href="https://codecov.io/gh/gagoar/alohomora">
+      <img src="https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV" alt="codecov" />
+    </a>
+      <a href="https://github.com/gagoar/alohomora/blob/master/LICENSE">
+      <img src="https://img.shields.io/npm/l/alohomora.svg?style=flat-square" alt="MIT license" />
+      </a>
+  </p>
   <p align="center">
     ✨ A cli that makes using AWS Parameter Store... as simple as the flick of a wand 🧙
     <br />

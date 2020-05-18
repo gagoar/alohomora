@@ -16,7 +16,6 @@ jobs:
           npm install
       - name: ESLint
         run: npm run lint
-
   test:
     name: Run unit tests
     runs-on: ubuntu-latest
@@ -36,11 +35,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests
-      - name: Send coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@master
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./coverage/clover.xml
 
   build:
     name: Run build
