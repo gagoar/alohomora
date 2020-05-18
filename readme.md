@@ -8,7 +8,7 @@
   <h3 align="center">Alohomora</h3>
 
   <p align="center">
-    <a href="https://www.npmjs.com/package/@typescript-eslint/parser">
+    <a href="https://www.npmjs.com/package/alohomora">
       <img src="https://img.shields.io/npm/v/alohomora/latest.svg?style=flat-square" alt="NPM Version" />
     </a>
     <a href="https://github.com/gagoar/alohomora/actions">
