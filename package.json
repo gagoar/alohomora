@@ -109,7 +109,7 @@
     "@types/node": "13.13.6",
     "@typescript-eslint/eslint-plugin": "2.33.0",
     "@typescript-eslint/parser": "2.33.0",
-    "@zeit/ncc": "0.22.1",
+    "@zeit/ncc": "0.22.2",
     "ajv-keywords": "3.4.1",
     "auto-changelog": "2.0.0",
     "bufferutil": "4.0.1",
