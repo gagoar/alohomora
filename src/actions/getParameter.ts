@@ -14,6 +14,7 @@ interface Input extends Actions {
   name: string
 };
 
+const getTupleFromParameter = (name: string, environment: string, { Value: value, LastModifiedDate: updatedAt, Version: version }: SSM.Parameter) => [[name, value, environment, dateFormat(updatedAt, DATE_FORMAT), version]];
 export const getParameter = async ({ name, prefix, region = REGION, ci = false, environment = Environment.all }: Input): Promise<string> => {
 
   const loader = ora(`retrieving key ${name} with the prefix /${prefix}  (${region})`).start();
@@ -32,10 +33,8 @@ export const getParameter = async ({ name, prefix, region = REGION, ci = false, 
 
     if (response.Parameter) {
 
-      const { Value: value, LastModifiedDate: updatedAt, Version: version } = response.Parameter;
-
       const style = ci ? DISABLE_TABLE_COLORS : undefined;
-      const content = createTable(customHeader, [[name, value, environment, dateFormat(updatedAt, DATE_FORMAT), version]], style);
+      const content = createTable(customHeader, getTupleFromParameter(name, environment, response.Parameter), style);
 
       loader.stopAndPersist({ text: `${name} found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
 
