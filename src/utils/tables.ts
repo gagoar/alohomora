@@ -19,7 +19,7 @@ const HEADERS: Record<GroupByKeys, string[]> = {
   'name': ['Environment', 'Updated by', 'Updated at']
 }
 
-export const getTableHeader = (groupBy: GroupByKeys | undefined) => {
+export const getTableHeader = (groupBy?: GroupByKeys) => {
   if (!groupBy) {
     return ['Name', 'Environment', 'Updated by', 'Updated at'];
   }

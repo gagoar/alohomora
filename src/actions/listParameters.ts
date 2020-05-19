@@ -1,4 +1,4 @@
-import { HorizontalAlignment } from 'cli-table3';
+import { HorizontalAlignment, TableConstructorOptions } from 'cli-table3';
 import colors from 'colors/safe';
 import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
@@ -23,15 +23,40 @@ const describeParameters = async (params: SSM.DescribeParametersRequest, region:
   }
 }
 
-
 interface Input extends Actions {
   groupBy?: keyof typeof GroupBy
 }
 
 
+const valuesByGroup = (values: string[][], groupBy: keyof typeof GroupBy) => {
+  return values.map(tuple =>
+    groupBy === GroupBy.name
+      ? [tuple[MetadataList.environment], tuple[MetadataList.user], tuple[MetadataList.date]]
+      : [tuple[MetadataList.name], tuple[MetadataList.user], tuple[MetadataList.date]]
+  );
+};
+
+const normalizeGroups = (groups: Record<string, string[][]>, groupBy: keyof typeof GroupBy, ci: boolean, styles?: TableConstructorOptions['style']) => {
+  return Object.keys(groups).map(group => {
+    const values = valuesByGroup(groups[group], groupBy);
+
+    const label = `${GroupBy[groupBy]}: ${group}`;
+
+    const groupByLabel = [{ colSpan: 3, hAlign: 'center' as HorizontalAlignment, content: ci ? label : colors.red(label) }];
+    const header = ci ? getTableHeader(groupBy) : getTableHeader(groupBy).map(value => colors.red(value));
+
+    const table = createTable(undefined, [groupByLabel, header, ...values], styles);
+
+    return table.toString();
+  });
+};
+
+const listByGroup = (keys: string[][], groupBy: keyof typeof GroupBy, ci: boolean, styles?: TableConstructorOptions['style']) => {
+  const groups = group(keys, tuple => groupBy === GroupBy.name ? tuple[MetadataList.name] : tuple[MetadataList.environment]);
+  return normalizeGroups(groups, groupBy, ci, styles);
+}
+
 export const listParameters = async ({ environment, prefix, region = REGION, ci = false, groupBy }: Input): Promise<string> => {
-
-
   const content = [];
   const loader = ora(`Finding keys with the prefix /${prefix}  (${region})`).start();
 
@@ -50,7 +75,6 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
     ParameterFilters: parameterFilters,
   };
 
-
   let parameters: SSM.ParameterMetadataList = [];
 
   try {
@@ -60,30 +84,14 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
 
     const styles = ci ? DISABLE_TABLE_COLORS : undefined;
 
+    let tuples: string[];
     if (!groupBy) {
-      const table = createTable(getTableHeader(groupBy), keys, styles);
-      content.push(table.toString());
+      tuples = [createTable(getTableHeader(groupBy), keys, styles).toString()];
     } else {
-      const groups = group(keys, tuple => groupBy === GroupBy.name ? tuple[0] : tuple[1]);
-
-      const finalGroups = Object.keys(groups).map(group => {
-        const values = groups[group].map(tuple =>
-          groupBy === GroupBy.name
-            ? [tuple[MetadataList.environment], tuple[MetadataList.user], tuple[MetadataList.date]]
-            : [tuple[MetadataList.name], tuple[MetadataList.user], tuple[MetadataList.date]]
-        );
-
-        const label = `${GroupBy[groupBy]}: ${group}`;
-
-        const groupByLabel = [{ colSpan: 3, hAlign: 'center' as HorizontalAlignment, content: ci ? label : colors.red(label) }];
-        const header = ci ? getTableHeader(groupBy) : getTableHeader(groupBy).map(value => colors.red(value));
-
-        const table = createTable(undefined, [groupByLabel, header, ...values], styles);
-
-        return table.toString();
-      });
-      content.push(...finalGroups);
+      tuples = [...listByGroup(keys, groupBy, ci, styles)];
     }
+
+    content.push(...tuples);
 
     loader.stopAndPersist({ text: `found ${parameters.length} secrets, under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
   } catch (e) {
