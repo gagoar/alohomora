@@ -1,28 +1,27 @@
 import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { setParameter } from '..';
 import { setCommand } from '../actions/commands';
+import { unMockConsole, mockConsole } from './helpers';
 
-const RealDate = Date.now
+const realDate = Date.now
 
 const setParameterPayload = {
   'Version': 1,
 };
 
-const realConsoleLog = console.log;
-const consoleLogMock = jest.fn();
-
 describe('setParameters', () => {
 
+  let consoleLogMock: jest.Mock;
   beforeAll(() => {
-    global.console.log = consoleLogMock;
+    consoleLogMock = mockConsole('log');
     Date.now = jest.fn(() =>
       new Date('2020-05-14T04:21:40.029Z').getTime()
     )
   })
 
   afterAll(() => {
-    global.console.log = realConsoleLog;
-    Date.now = RealDate;
+    unMockConsole('log');
+    Date.now = realDate;
   });
 
   it('request fails', async () => {

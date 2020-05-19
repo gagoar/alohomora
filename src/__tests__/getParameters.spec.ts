@@ -2,6 +2,7 @@ import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { getParameter } from '..';
 import { getCommand } from '../actions/commands';
 import { stopAndPersist, fail } from '../__mocks__/ora';
+import { mockConsole, unMockConsole } from './helpers';
 
 const getParameterPayload = {
   'Name': '/my-company/my-app/production/Vault_713',
@@ -13,16 +14,15 @@ const getParameterPayload = {
   'DataType': 'text'
 };
 
-const realConsoleLog = console.log;
-const consoleLogMock = jest.fn();
 
 describe('getParameters', () => {
+  let consoleLogMock: jest.Mock;
   beforeAll(() => {
-    global.console.log = consoleLogMock;
+    consoleLogMock = mockConsole('log');
   });
 
   afterAll(() => {
-    global.console.log = realConsoleLog;
+    unMockConsole('log');
   });
 
   beforeEach(() => {
@@ -30,6 +30,7 @@ describe('getParameters', () => {
     fail.mockReset();
     consoleLogMock.mockReset();
   });
+
   it('request fails', async () => {
     const prefix = 'my-company/my-app';
 

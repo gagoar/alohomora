@@ -4,21 +4,21 @@ import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { exportAsTemplate } from '..';
 import { exportCommand } from '../actions/commands';
 import { Template } from '../utils/constants';
-import { createHandler } from './helpers';
+import { createHandler, mockConsole, unMockConsole } from './helpers';
 
-const realConsoleLog = global.console.log;
-const consoleLogMock = jest.fn();
-const realConsoleError = global.console.error;
-const consoleErrorMock = jest.fn();
 describe('exportAsTemplate', () => {
-  beforeEach(() => {
-    global.console.error = consoleErrorMock;
-    global.console.log = consoleLogMock;
+  let consoleErrorMock: jest.Mock;
+  let consoleLogMock: jest.Mock;
+
+  const prefix = 'my-company/my-app';
+  beforeAll(() => {
+    consoleLogMock = mockConsole('log');
+    consoleErrorMock = mockConsole('error');
   });
 
   afterAll(() => {
-    global.console.error = realConsoleLog;
-    global.console.log = realConsoleError;
+    unMockConsole('log');
+    unMockConsole('error');
   });
 
   afterEach(() => {
@@ -26,7 +26,6 @@ describe('exportAsTemplate', () => {
     consoleLogMock.mockReset();
   });
   it('request fails', async () => {
-    const prefix = 'my-company/my-app';
 
     SSM.__setResponseForMethods({
       getParametersByPath: createHandler(() => {
@@ -50,7 +49,6 @@ describe('exportAsTemplate', () => {
   });
 
   it('export parameters in a shell as a template by default', async () => {
-    const prefix = 'my-company/my-app';
     SSM.__setResponseForMethods({ getParametersByPath: createHandler(() => ({ Parameters: getParametersByPathPayload })) });
 
     const response = await exportAsTemplate({ prefix });
@@ -58,7 +56,6 @@ describe('exportAsTemplate', () => {
   });
 
   it('export parameters in a shell as a template by default, using production as environment', async () => {
-    const prefix = 'my-company/my-app';
 
     SSM.__setResponseForMethods({ getParametersByPath: createHandler(() => ({ Parameters: getParametersByPathPayload })) });
 
@@ -67,7 +64,6 @@ describe('exportAsTemplate', () => {
   })
 
   it('export parameters in json format, using nextToken', async () => {
-    const prefix = 'my-company/my-app';
 
     const handler = createHandler()
       .mockImplementationOnce(() => ({
@@ -98,7 +94,6 @@ describe('exportAsTemplate', () => {
   });
 
   it('via command invocation, with a valid template', async () => {
-    const prefix = 'my-company/my-app';
     SSM.__setResponseForMethods({ getParametersByPath: createHandler(() => ({ Parameters: getParametersByPathPayload })) });
 
     await exportCommand('json', { parent: { prefix } });
@@ -106,7 +101,6 @@ describe('exportAsTemplate', () => {
     expect(consoleLogMock).toHaveBeenCalled();
   });
   it('via command invocation, with invalid template', async () => {
-    const prefix = 'my-company/my-app';
 
     const mockExit = mockProcessExit();
     SSM.__setResponseForMethods({ getParametersByPath: createHandler(() => ({ Parameters: getParametersByPathPayload })) });
