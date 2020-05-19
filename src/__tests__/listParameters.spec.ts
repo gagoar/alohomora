@@ -5,6 +5,9 @@ import { mockProcessExit } from 'jest-mock-process';
 import { listCommand } from '../actions/commands';
 import { mockConsole, unMockConsole, createHandler } from './helpers';
 
+const mockSSResponse = () => {
+  SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
+}
 describe('listParameters', () => {
   let consoleErrorMock: jest.Mock;
   let consoleLogMock: jest.Mock;
@@ -26,11 +29,11 @@ describe('listParameters', () => {
   });
   it('request fails', async () => {
 
-    const handler = jest.fn().mockImplementationOnce(() => {
-      throw new Error('Some fatal error ocurred');
+    SSM.__setResponseForMethods({
+      describeParameters: createHandler(() => {
+        throw new Error('Some fatal error ocurred');
+      })
     });
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
 
     const response = await listParameters({ prefix, ci: true });
     expect(response).toMatchSnapshot();
@@ -38,9 +41,7 @@ describe('listParameters', () => {
 
   it('gets parameters', async () => {
 
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    mockSSResponse()
 
     const response = await listParameters({
       prefix,
@@ -52,8 +53,7 @@ describe('listParameters', () => {
 
   it('gets parameters, grouped by Name', async () => {
 
-    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
-
+    mockSSResponse();
     const response = await listParameters({
       prefix,
       environment: 'production',
@@ -65,8 +65,7 @@ describe('listParameters', () => {
 
   it('gets parameters, grouped by Environment', async () => {
 
-    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
-
+    mockSSResponse()
     const response = await listParameters({
       prefix,
       environment: 'production',
@@ -94,7 +93,7 @@ describe('listParameters', () => {
   });
 
   it('via command invocation', async () => {
-    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
+    mockSSResponse();
 
     await listCommand({ parent: { prefix } });
 
@@ -103,8 +102,7 @@ describe('listParameters', () => {
 
   it('via command invocation, with an invalid groupBy set', async () => {
     const mockExit = mockProcessExit();
-    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
-
+    mockSSResponse();
     await listCommand({ parent: { prefix }, groupBy: 'Bogart' });
 
     expect(mockExit).toHaveBeenCalledWith(1);
@@ -119,7 +117,7 @@ describe('listParameters', () => {
 
   it('via command invocation, with a valid groupBy', async () => {
     const mockExit = mockProcessExit();
-    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
+    mockSSResponse()
 
     await listCommand({ parent: { prefix }, groupBy: 'name' });
 
