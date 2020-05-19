@@ -21,6 +21,7 @@ const getParametersByPath = async (params: SSM.GetParametersByPathRequest, regio
     return parameters;
   }
 }
+
 const getKeys = async ({ prefix, region }: { prefix: string, region: string }) => {
   const parameters = await getParametersByPath({
     Path: `/${prefix}`,
@@ -38,6 +39,7 @@ const getKeys = async ({ prefix, region }: { prefix: string, region: string }) =
       value,
     }
   });
+
   return groupBy(secrets, ({ environment }: { environment: string }) => environment);
 }
 const templateFunctions = {
@@ -80,7 +82,6 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
   }
 
 };
-
 
 export const command = async (templateName: string = Template.shell, command: Command): Promise<void> => {
 
