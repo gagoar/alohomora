@@ -3,7 +3,7 @@ import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { listParameters } from '../';
 import { mockProcessExit } from 'jest-mock-process';
 import { listCommand } from '../actions/commands';
-import { mockConsole, unMockConsole } from './helpers';
+import { mockConsole, unMockConsole, createHandler } from './helpers';
 
 describe('listParameters', () => {
   let consoleErrorMock: jest.Mock;
@@ -52,9 +52,7 @@ describe('listParameters', () => {
 
   it('gets parameters, grouped by Name', async () => {
 
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
 
     const response = await listParameters({
       prefix,
@@ -67,9 +65,7 @@ describe('listParameters', () => {
 
   it('gets parameters, grouped by Environment', async () => {
 
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
 
     const response = await listParameters({
       prefix,
@@ -98,8 +94,7 @@ describe('listParameters', () => {
   });
 
   it('via command invocation', async () => {
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
 
     await listCommand({ parent: { prefix } });
 
@@ -108,8 +103,7 @@ describe('listParameters', () => {
 
   it('via command invocation, with an invalid groupBy set', async () => {
     const mockExit = mockProcessExit();
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
 
     await listCommand({ parent: { prefix }, groupBy: 'Bogart' });
 
@@ -125,8 +119,7 @@ describe('listParameters', () => {
 
   it('via command invocation, with a valid groupBy', async () => {
     const mockExit = mockProcessExit();
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
 
     await listCommand({ parent: { prefix }, groupBy: 'name' });
 
