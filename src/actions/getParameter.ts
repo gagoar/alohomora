@@ -7,9 +7,9 @@ import { Actions } from '../types';
 import { REGION, API_VERSION, Environment, DATE_FORMAT, SUCCESS_SYMBOL, DISABLE_TABLE_COLORS } from '../utils/constants';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
-import { createTable, getTableHeader } from '../utils/tables';
+import { createTable } from '../utils/tables';
 
-
+const customHeader = ['Name', 'Value', 'Environment', 'Updated by', 'Version'];
 interface Input extends Actions {
   name: string
 };
@@ -35,7 +35,7 @@ export const getParameter = async ({ name, prefix, region = REGION, ci = false, 
       const { Value: value, LastModifiedDate: updatedAt, Version: version } = response.Parameter;
 
       const style = ci ? DISABLE_TABLE_COLORS : undefined;
-      const content = createTable(getTableHeader(), [[name, value, environment, dateFormat(updatedAt, DATE_FORMAT), version]], style)
+      const content = createTable(customHeader, [[name, value, environment, dateFormat(updatedAt, DATE_FORMAT), version]], style);
 
       loader.stopAndPersist({ text: `${name} found under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
 
