@@ -51,6 +51,11 @@ const normalizeGroups = (groups: Record<string, string[][]>, groupBy: keyof type
   });
 };
 
+const listByGroup = (keys: string[][], groupBy: keyof typeof GroupBy, ci: boolean, styles?: TableConstructorOptions['style']) => {
+  const groups = group(keys, tuple => groupBy === GroupBy.name ? tuple[MetadataList.name] : tuple[MetadataList.environment]);
+  return normalizeGroups(groups, groupBy, ci, styles);
+}
+
 export const listParameters = async ({ environment, prefix, region = REGION, ci = false, groupBy }: Input): Promise<string> => {
   const content = [];
   const loader = ora(`Finding keys with the prefix /${prefix}  (${region})`).start();
@@ -70,7 +75,6 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
     ParameterFilters: parameterFilters,
   };
 
-
   let parameters: SSM.ParameterMetadataList = [];
 
   try {
@@ -80,14 +84,14 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
 
     const styles = ci ? DISABLE_TABLE_COLORS : undefined;
 
+    let tuples: string[];
     if (!groupBy) {
-      const table = createTable(getTableHeader(groupBy), keys, styles);
-      content.push(table.toString());
+      tuples = [createTable(getTableHeader(groupBy), keys, styles).toString()];
     } else {
-      const groups = group(keys, tuple => groupBy === GroupBy.name ? tuple[MetadataList.name] : tuple[MetadataList.environment]);
-      const finalGroups = normalizeGroups(groups, groupBy, ci, styles);
-      content.push(...finalGroups);
+      tuples = [...listByGroup(keys, groupBy, ci, styles)];
     }
+
+    content.push(...tuples);
 
     loader.stopAndPersist({ text: `found ${parameters.length} secrets, under /${prefix}  (${region})`, symbol: SUCCESS_SYMBOL });
   } catch (e) {
