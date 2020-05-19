@@ -51,29 +51,36 @@ describe('listParameters', () => {
     expect(response).toMatchSnapshot();
   });
 
-  it('gets parameters, grouped by Name', async () => {
+  describe('get parameters', () => {
+    const groups: ('name' | 'environment' | undefined)[] = ['name', 'environment', undefined];
+    groups.forEach((groupBy) => {
+      it('grouped by Name', async () => {
 
-    mockSSResponse();
-    const response = await listParameters({
-      prefix,
-      environment: 'production',
-      groupBy: 'name',
-      ci: true,
-    });
-    expect(response).toMatchSnapshot();
-  });
+        mockSSResponse();
+        const response = await listParameters({
+          prefix,
+          environment: 'production',
+          groupBy,
+          ci: true,
+        });
+        expect(response).toMatchSnapshot();
+      });
 
-  it('gets parameters, grouped by Environment', async () => {
+      it('gets parameters, grouped by Environment', async () => {
 
-    mockSSResponse()
-    const response = await listParameters({
-      prefix,
-      environment: 'production',
-      groupBy: 'environment',
-      ci: true,
-    });
-    expect(response).toMatchSnapshot();
-  });
+        mockSSResponse()
+        const response = await listParameters({
+          prefix,
+          environment: 'production',
+          groupBy: 'environment',
+          ci: true,
+        });
+        expect(response).toMatchSnapshot();
+      });
+    })
+
+  })
+
   it('gets parameters, using nextToken', async () => {
     const handler = jest
       .fn()
