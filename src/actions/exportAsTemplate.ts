@@ -3,7 +3,7 @@ import groupBy from 'lodash.groupby';
 
 import { Actions } from '../types';
 import { REGION, API_VERSION, MAX_RESULTS_FOR_PATH, Environment, Template } from '../utils/constants';
-import { normalizeSecretKey } from '../utils/normalizeSecretKey';
+import { normalizeSecretKey } from '../utils/normalizeSecrets';
 import { isValidTemplate } from '../utils/guards';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';

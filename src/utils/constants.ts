@@ -20,6 +20,11 @@ export enum Template {
 
 };
 
+export enum GroupBy {
+  name = 'name',
+  environment = 'environment'
+}
+
 export const DISABLE_TABLE_COLORS = {
   head: []    //disable colors in header cells
   , border: []  //disable colors for the border

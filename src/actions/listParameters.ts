@@ -1,19 +1,15 @@
-import Table, { HorizontalAlignment } from 'cli-table3';
+import { HorizontalAlignment } from 'cli-table3';
 import colors from 'colors/safe';
-import dateFormat from 'dateformat';
 import ora from 'ora';
 import SSM from 'aws-sdk/clients/ssm';
-
-import { Actions } from '../types';
-import { API_VERSION, REGION, DATE_FORMAT, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE, DISABLE_TABLE_COLORS } from '../utils/constants';
-import { normalizeSecretKey } from '../utils/normalizeSecretKey';
-import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
-import { setAWSCredentials } from '../utils/setAWSCredentials';
 import group from 'lodash.groupby';
 
-const getUser = (lastModifiedUser: string): string => {
-  return lastModifiedUser.split('user/')[1];
-}
+import { Actions } from '../types';
+import { API_VERSION, REGION, SUCCESS_SYMBOL, MAX_RESULTS_FOR_DESCRIBE, DISABLE_TABLE_COLORS, GroupBy } from '../utils/constants';
+import { normalizeSecrets, MetadataList } from '../utils/normalizeSecrets';
+import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
+import { setAWSCredentials } from '../utils/setAWSCredentials';
+import { createTable, getTableHeader } from '../utils/tables';
 
 const describeParameters = async (params: SSM.DescribeParametersRequest, region: string): Promise<SSM.ParameterMetadataList> => {
   const ssm = new SSM({ apiVersion: API_VERSION, region });
@@ -27,39 +23,11 @@ const describeParameters = async (params: SSM.DescribeParametersRequest, region:
   }
 }
 
-enum GroupBy {
-  name = 'name',
-  environment = 'environment'
-}
+
 interface Input extends Actions {
   groupBy?: keyof typeof GroupBy
 }
 
-
-const HEADERS: Record<keyof typeof GroupBy, string[]> = {
-  'environment': ['Name', 'Updated by', 'Updated at'],
-  'name': ['Environment', 'Updated by', 'Updated at']
-}
-
-const getTableHeader = (groupBy: Input['groupBy']) => {
-  if (!groupBy) {
-    return ['Name', 'Environment', 'Updated by', 'Updated at'];
-  }
-
-  return HEADERS[groupBy];
-}
-
-type TableContent = Table.HorizontalTableRow | Table.VerticalTableRow | Table.CrossTableRow;
-const createTable = (head: Table.TableOptions['head'] | undefined, content: TableContent[], style?: Table.TableConstructorOptions['style']) => {
-
-  const table = new Table({
-    head,
-    style
-  });
-
-  table.push(...content);
-  return table;
-}
 
 export const listParameters = async ({ environment, prefix, region = REGION, ci = false, groupBy }: Input): Promise<string> => {
 
@@ -87,17 +55,8 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
 
   try {
     parameters = await describeParameters(params, region);
-    const keys = parameters.map(({ Name = '', LastModifiedDate = '', LastModifiedUser = '' }) => {
-      const { name, environment } = normalizeSecretKey(Name, prefix);
-      const date = dateFormat(LastModifiedDate, DATE_FORMAT);
-      return [name, environment, getUser(LastModifiedUser), date];
-    });
 
-    keys.sort((a, b) => {
-      if (a[0] > b[0]) return 1;
-      if (a[0] < b[0]) return -1;
-      return 0;
-    })
+    const keys = normalizeSecrets(prefix, parameters);
 
     const styles = ci ? DISABLE_TABLE_COLORS : undefined;
 
@@ -109,7 +68,9 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
 
       const finalGroups = Object.keys(groups).map(group => {
         const values = groups[group].map(tuple =>
-          groupBy === GroupBy.name ? [tuple[1], tuple[2], tuple[3]] : [tuple[0], tuple[2], tuple[3]]
+          groupBy === GroupBy.name
+            ? [tuple[MetadataList.environment], tuple[MetadataList.user], tuple[MetadataList.date]]
+            : [tuple[MetadataList.name], tuple[MetadataList.user], tuple[MetadataList.date]]
         );
 
         const label = `${GroupBy[groupBy]}: ${group}`;
