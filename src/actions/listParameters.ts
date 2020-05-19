@@ -31,7 +31,7 @@ enum GroupBy {
   name = 'name',
   environment = 'environment'
 }
-export interface Input extends Actions {
+interface Input extends Actions {
   groupBy?: keyof typeof GroupBy
 }
 
