@@ -211,6 +211,38 @@ Custom configuration can be defined in many places, for more information check [
 - If `prefix` is provided via cli, the custom configuration will be ignored.
 - If configuration is provided via the cli, custom configuration will be merged with the provided cli configuration (except `prefix`)
 
+example with overrides:
+
+```json
+"alohomora": {
+  "prefix": "my-company/my-app",
+  "region": "us-west-2",
+  "environment": "development",
+}
+```
+
+```bash
+  alo list --environment production
+```
+
+result: We will use everything from the custom configuration and use `environment` provided by the cli instead of the one on the custom configuration
+
+example ignoring custom configuration:
+
+```json
+"alohomora": {
+  "prefix": "my-company/my-app",
+  "region": "us-west-2",
+  "environment": "development",
+}
+```
+
+```bash
+  alo list prefix "my-other-company/my-other-app"
+```
+
+result: We will ignore custom configuration given that `prefix` was provided via cli.
+
 <!-- ROADMAP -->
 
 ## Roadmap
