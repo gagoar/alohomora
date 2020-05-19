@@ -54,25 +54,12 @@ describe('listParameters', () => {
   describe('get parameters', () => {
     const groups: ('name' | 'environment' | undefined)[] = ['name', 'environment', undefined];
     groups.forEach((groupBy) => {
-      it('grouped by Name', async () => {
-
+      it(`grouped by ${groupBy}`, async () => {
         mockSSResponse();
         const response = await listParameters({
           prefix,
           environment: 'production',
           groupBy,
-          ci: true,
-        });
-        expect(response).toMatchSnapshot();
-      });
-
-      it('gets parameters, grouped by Environment', async () => {
-
-        mockSSResponse()
-        const response = await listParameters({
-          prefix,
-          environment: 'production',
-          groupBy: 'environment',
           ci: true,
         });
         expect(response).toMatchSnapshot();
