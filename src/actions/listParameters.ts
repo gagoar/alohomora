@@ -23,7 +23,6 @@ const describeParameters = async (params: SSM.DescribeParametersRequest, region:
   }
 }
 
-
 interface Input extends Actions {
   groupBy?: keyof typeof GroupBy
 }
