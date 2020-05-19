@@ -3,20 +3,24 @@ import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { listParameters } from '../';
 import { mockProcessExit } from 'jest-mock-process';
 import { listCommand } from '../actions/commands';
+import { mockConsole, unMockConsole, createHandler } from './helpers';
 
-const realConsoleLog = console.log;
-const consoleLogMock = jest.fn();
-const realConsoleError = console.error;
-const consoleErrorMock = jest.fn();
+const mockSSResponse = () => {
+  SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });
+}
 describe('listParameters', () => {
+  let consoleErrorMock: jest.Mock;
+  let consoleLogMock: jest.Mock;
+
+  const prefix = 'my-company/my-app';
   beforeAll(() => {
-    global.console.log = consoleLogMock;
-    global.console.error = consoleErrorMock;
+    consoleLogMock = mockConsole('log');
+    consoleErrorMock = mockConsole('error');
   });
 
   afterAll(() => {
-    global.console.log = realConsoleLog;
-    global.console.error = realConsoleError;
+    unMockConsole('log');
+    unMockConsole('error');
   });
 
   beforeEach(() => {
@@ -24,24 +28,20 @@ describe('listParameters', () => {
     consoleErrorMock.mockReset();
   });
   it('request fails', async () => {
-    const prefix = 'my-company/my-app';
 
-    const handler = jest.fn().mockImplementationOnce(() => {
-      throw new Error('Some fatal error ocurred');
+    SSM.__setResponseForMethods({
+      describeParameters: createHandler(() => {
+        throw new Error('Some fatal error ocurred');
+      })
     });
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
 
     const response = await listParameters({ prefix, ci: true });
     expect(response).toMatchSnapshot();
   });
 
   it('gets parameters', async () => {
-    const prefix = 'my-company/my-app';
 
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    mockSSResponse()
 
     const response = await listParameters({
       prefix,
@@ -51,40 +51,37 @@ describe('listParameters', () => {
     expect(response).toMatchSnapshot();
   });
 
-  it('gets parameters, grouped by Name', async () => {
-    const prefix = 'my-company/my-app';
+  describe('get parameters', () => {
+    const groups: ('name' | 'environment' | undefined)[] = ['name', 'environment', undefined];
+    groups.forEach((groupBy) => {
+      it('grouped by Name', async () => {
 
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
+        mockSSResponse();
+        const response = await listParameters({
+          prefix,
+          environment: 'production',
+          groupBy,
+          ci: true,
+        });
+        expect(response).toMatchSnapshot();
+      });
 
-    SSM.__setResponseForMethods({ describeParameters: handler });
+      it('gets parameters, grouped by Environment', async () => {
 
-    const response = await listParameters({
-      prefix,
-      environment: 'production',
-      groupBy: 'name',
-      ci: true,
-    });
-    expect(response).toMatchSnapshot();
-  });
+        mockSSResponse()
+        const response = await listParameters({
+          prefix,
+          environment: 'production',
+          groupBy: 'environment',
+          ci: true,
+        });
+        expect(response).toMatchSnapshot();
+      });
+    })
 
-  it('gets parameters, grouped by Environment', async () => {
-    const prefix = 'my-company/my-app';
+  })
 
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-
-    SSM.__setResponseForMethods({ describeParameters: handler });
-
-    const response = await listParameters({
-      prefix,
-      environment: 'production',
-      groupBy: 'environment',
-      ci: true,
-    });
-    expect(response).toMatchSnapshot();
-  });
   it('gets parameters, using nextToken', async () => {
-    const prefix = 'my-company/my-app';
-
     const handler = jest
       .fn()
       .mockImplementationOnce(() => ({
@@ -103,9 +100,7 @@ describe('listParameters', () => {
   });
 
   it('via command invocation', async () => {
-    const prefix = 'my-company/my-app';
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    mockSSResponse();
 
     await listCommand({ parent: { prefix } });
 
@@ -113,11 +108,8 @@ describe('listParameters', () => {
   });
 
   it('via command invocation, with an invalid groupBy set', async () => {
-    const prefix = 'my-company/my-app';
     const mockExit = mockProcessExit();
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-    SSM.__setResponseForMethods({ describeParameters: handler });
-
+    mockSSResponse();
     await listCommand({ parent: { prefix }, groupBy: 'Bogart' });
 
     expect(mockExit).toHaveBeenCalledWith(1);
@@ -131,10 +123,8 @@ describe('listParameters', () => {
   });
 
   it('via command invocation, with a valid groupBy', async () => {
-    const prefix = 'my-company/my-app';
     const mockExit = mockProcessExit();
-    const handler = jest.fn(() => ({ Parameters: listParametersPayload }));
-    SSM.__setResponseForMethods({ describeParameters: handler });
+    mockSSResponse()
 
     await listCommand({ parent: { prefix }, groupBy: 'name' });
 

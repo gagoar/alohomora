@@ -1,26 +1,27 @@
 import { mockProcessExit } from 'jest-mock-process';
 import { getGlobalOptions } from '../utils/getGlobalOptions';
 import { search } from '../__mocks__/cosmiconfig';
+import { mockConsole, unMockConsole } from './helpers';
 
-const realConsoleLog = global.console.log;
-const consoleLogMock = jest.fn();
-const realConsoleError = global.console.error;
-const consoleErrorMock = jest.fn();
 describe('getGlobalOptions', () => {
-  beforeEach(() => {
-    global.console.error = consoleErrorMock;
-    global.console.log = consoleLogMock;
+  let consoleErrorMock: jest.Mock;
+  let consoleLogMock: jest.Mock;
+
+  beforeAll(() => {
+    consoleLogMock = mockConsole('log');
+    consoleErrorMock = mockConsole('error');
   });
 
   afterAll(() => {
-    global.console.error = realConsoleLog;
-    global.console.log = realConsoleError;
+    unMockConsole('log');
+    unMockConsole('error');
   });
 
   afterEach(() => {
     consoleErrorMock.mockReset();
     consoleLogMock.mockReset();
   });
+
   it('global Options come from customConfig', async () => {
     search.mockImplementation(() =>
       Promise.resolve({

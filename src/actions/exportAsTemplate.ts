@@ -3,7 +3,7 @@ import groupBy from 'lodash.groupby';
 
 import { Actions } from '../types';
 import { REGION, API_VERSION, MAX_RESULTS_FOR_PATH, Environment, Template } from '../utils/constants';
-import { normalizeSecretKey } from '../utils/normalizeSecretKey';
+import { normalizeSecretKey } from '../utils/normalizeSecrets';
 import { isValidTemplate } from '../utils/guards';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
@@ -21,6 +21,7 @@ const getParametersByPath = async (params: SSM.GetParametersByPathRequest, regio
     return parameters;
   }
 }
+
 const getKeys = async ({ prefix, region }: { prefix: string, region: string }) => {
   const parameters = await getParametersByPath({
     Path: `/${prefix}`,
@@ -38,6 +39,7 @@ const getKeys = async ({ prefix, region }: { prefix: string, region: string }) =
       value,
     }
   });
+
   return groupBy(secrets, ({ environment }: { environment: string }) => environment);
 }
 const templateFunctions = {
@@ -80,7 +82,6 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
   }
 
 };
-
 
 export const command = async (templateName: string = Template.shell, command: Command): Promise<void> => {
 
