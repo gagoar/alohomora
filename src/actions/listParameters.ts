@@ -28,13 +28,17 @@ interface Input extends Actions {
 }
 
 
+const valuesByGroup = (values: string[][], groupBy: keyof typeof GroupBy) => {
+  return values.map(tuple =>
+    groupBy === GroupBy.name
+      ? [tuple[MetadataList.environment], tuple[MetadataList.user], tuple[MetadataList.date]]
+      : [tuple[MetadataList.name], tuple[MetadataList.user], tuple[MetadataList.date]]
+  );
+};
+
 const normalizeGroups = (groups: Record<string, string[][]>, groupBy: keyof typeof GroupBy, ci: boolean, styles?: TableConstructorOptions['style']) => {
   return Object.keys(groups).map(group => {
-    const values = groups[group].map(tuple =>
-      groupBy === GroupBy.name
-        ? [tuple[MetadataList.environment], tuple[MetadataList.user], tuple[MetadataList.date]]
-        : [tuple[MetadataList.name], tuple[MetadataList.user], tuple[MetadataList.date]]
-    );
+    const values = valuesByGroup(groups[group], groupBy);
 
     const label = `${GroupBy[groupBy]}: ${group}`;
 
@@ -45,7 +49,8 @@ const normalizeGroups = (groups: Record<string, string[][]>, groupBy: keyof type
 
     return table.toString();
   });
-}
+};
+
 export const listParameters = async ({ environment, prefix, region = REGION, ci = false, groupBy }: Input): Promise<string> => {
   const content = [];
   const loader = ora(`Finding keys with the prefix /${prefix}  (${region})`).start();
@@ -80,7 +85,6 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
       content.push(table.toString());
     } else {
       const groups = group(keys, tuple => groupBy === GroupBy.name ? tuple[MetadataList.name] : tuple[MetadataList.environment]);
-
       const finalGroups = normalizeGroups(groups, groupBy, ci, styles);
       content.push(...finalGroups);
     }
