@@ -9,6 +9,9 @@
     <a href="https://codecov.io/gh/gagoar/alohomora">
       <img src="https://codecov.io/gh/gagoar/alohomora/branch/master/graph/badge.svg?token=48gHuQl8zV" alt="codecov" />
     </a>
+    <a href="https://codeclimate.com/github/gagoar/alohomora/maintainability">
+      <img src="https://api.codeclimate.com/v1/badges/9ab29ec3ef970bf219da/maintainability" />
+    </a>
     <a href="https://github.com/gagoar/alohomora/blob/master/LICENSE">
       <img src="https://img.shields.io/npm/l/alohomora.svg?style=flat-square" alt="MIT license" />
     </a>
