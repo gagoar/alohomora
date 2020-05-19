@@ -5,6 +5,13 @@ type PossibleCredentials = { profile?: string, accessKeyId?: string, secretAcces
 type Parameters = { prefix: string, region?: string, environment?: string, ci?: boolean };
 export interface Command { parent: Options };
 
+type SanitizedParams = Record<string, string | number | boolean>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sanitizeParams = (params: Record<string, any>): SanitizedParams => {
+  return Object.keys(params).reduce((memo, key) => params[key] ? { ...memo, key: params[key] } : memo, {} as SanitizedParams)
+
+};
 const getOptionsFromCommand = (command: Command): [PossibleCredentials, Partial<Parameters>] => {
   const {
     parent:
@@ -36,7 +43,7 @@ export const getGlobalOptions = async (command: Command): Promise<{ params: Para
       const { prefix: customPrefix, ...rest } = customConfiguration;
       return {
         credentials,
-        params: { prefix: customPrefix, ...rest }
+        params: { prefix: customPrefix, ...rest, ...sanitizeParams(parameters) }
       }
     } else {
       console.error('prefix not provided, try again with --prefix option');

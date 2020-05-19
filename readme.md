@@ -145,7 +145,7 @@ Every command accepts several options through command line or custom configurati
 
 ## Configuration
 
-You can configurate `alohomora` from several places:
+You can configure `alohomora` from several places:
 
 ### CLI options
 
@@ -205,6 +205,11 @@ When the command is invoked it will look for the `alohomora` configuration block
 ```
 
 Custom configuration can be defined in many places, for more information check [cosmiconfig](https://github.com/davidtheclark/cosmiconfig)
+
+**notes about custom configuration**
+
+- If `prefix` is provided via cli, the custom configuration will be ignored.
+- If configuration is provided via the cli, custom configuration will be merged with the provided cli configuration (except `prefix`)
 
 <!-- ROADMAP -->
 

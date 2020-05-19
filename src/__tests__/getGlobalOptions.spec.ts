@@ -22,6 +22,40 @@ describe('getGlobalOptions', () => {
     consoleLogMock.mockReset();
   });
 
+  it('global Options coming from customConfig and command line', async () => {
+    search.mockImplementation(() =>
+      Promise.resolve({
+        isEmpty: false,
+        filepath: '/some/package.json',
+        config: {
+          prefix: 'my-company/my-app',
+          region: 'us-west-2',
+          environment: 'development',
+        },
+      })
+    );
+
+    const response = await getGlobalOptions({
+      parent: { environment: 'production' },
+    });
+
+    expect(response).toMatchInlineSnapshot(`
+      Object {
+        "credentials": Object {
+          "accessKeyId": undefined,
+          "profile": undefined,
+          "secretAccessKey": undefined,
+          "sessionToken": undefined,
+        },
+        "params": Object {
+          "environment": "development",
+          "key": "production",
+          "prefix": "my-company/my-app",
+          "region": "us-west-2",
+        },
+      }
+    `);
+  });
   it('global Options come from customConfig', async () => {
     search.mockImplementation(() =>
       Promise.resolve({
