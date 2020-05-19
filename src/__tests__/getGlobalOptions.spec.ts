@@ -48,8 +48,7 @@ describe('getGlobalOptions', () => {
           "sessionToken": undefined,
         },
         "params": Object {
-          "environment": "development",
-          "key": "production",
+          "environment": "production",
           "prefix": "my-company/my-app",
           "region": "us-west-2",
         },

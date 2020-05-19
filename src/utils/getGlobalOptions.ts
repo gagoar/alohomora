@@ -9,7 +9,9 @@ type SanitizedParams = Record<string, string | number | boolean>;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sanitizeParams = (params: Record<string, any>): SanitizedParams => {
-  return Object.keys(params).reduce((memo, key) => params[key] ? { ...memo, key: params[key] } : memo, {} as SanitizedParams)
+  return Object.keys(params).reduce((memo, key) => {
+    return params[key] ? { ...memo, [key]: params[key] } : memo
+  }, {} as SanitizedParams)
 
 };
 const getOptionsFromCommand = (command: Command): [PossibleCredentials, Partial<Parameters>] => {
@@ -41,9 +43,11 @@ export const getGlobalOptions = async (command: Command): Promise<{ params: Para
 
     if (customConfiguration && 'prefix' in customConfiguration && typeof customConfiguration.prefix === 'string') {
       const { prefix: customPrefix, ...rest } = customConfiguration;
+      const sanitizedParams = sanitizeParams(parameters);
+
       return {
         credentials,
-        params: { prefix: customPrefix, ...rest, ...sanitizeParams(parameters) }
+        params: { prefix: customPrefix, ...rest, ...sanitizedParams }
       }
     } else {
       console.error('prefix not provided, try again with --prefix option');
