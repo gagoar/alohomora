@@ -51,6 +51,14 @@ const templateFunctions = {
   },
 }
 
+type Keys = { name: string; environment: string; value: string; };
+
+const normalizeGroup = (keys: Keys[]): Record<string, string> => {
+  return keys.reduce(((memo, secret) => {
+    return Object.keys(memo).length ? { ...memo, [secret.name]: secret.value } : { [secret.name]: secret.value };
+  }), {} as Record<string, string>);
+};
+
 export const exportAsTemplate = async ({ prefix, environment = Environment.all, region = REGION, templateName = Template.shell }: Input): Promise<string> => {
 
   try {
@@ -60,14 +68,10 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
     });
 
     let secrets: Record<string, string>;
-    const baseSecrets = (groupedSecrets[Environment.all] || []).reduce(((memo, secret) => {
-      return Object.keys(memo).length ? { ...memo, [secret.name]: secret.value } : { [secret.name]: secret.value };
-    }), {} as Record<string, string>);
+    const baseSecrets = normalizeGroup(groupedSecrets[Environment.all] || []);
 
     if (environment !== Environment.all && environment in groupedSecrets) {
-      const envSecrets = groupedSecrets[environment].reduce(((memo, secret) => {
-        return { ...memo, [secret.name]: secret.value };
-      }), {} as Record<string, string>);
+      const envSecrets = normalizeGroup(groupedSecrets[environment]);
 
       secrets = { ...baseSecrets, ...envSecrets };
     } else {
@@ -80,7 +84,6 @@ export const exportAsTemplate = async ({ prefix, environment = Environment.all, 
     console.error('We found an error trying to retrieve secrets', e);
     throw e;
   }
-
 };
 
 export const command = async (templateName: string = Template.shell, command: Command): Promise<void> => {
