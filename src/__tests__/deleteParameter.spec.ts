@@ -2,6 +2,7 @@ import SSM from '../__mocks__/aws-sdk/clients/ssm';
 import { deleteParameter } from '..';
 import { deleteCommand } from '../actions/commands';
 import { stopAndPersist, fail } from '../__mocks__/ora';
+import { createHandler } from './helpers';
 
 describe('deleteParameters', () => {
   beforeEach(() => {
@@ -12,11 +13,11 @@ describe('deleteParameters', () => {
   it('request fails', async () => {
     const prefix = 'my-company/my-app';
 
-    const handler = jest.fn().mockImplementationOnce(() => {
-      throw new Error('Some fatal error ocurred');
+    SSM.__setResponseForMethods({
+      deleteParameter: createHandler(() => {
+        throw new Error('Some fatal error ocurred');
+      })
     });
-
-    SSM.__setResponseForMethods({ deleteParameter: handler });
 
     const response = await deleteParameter({
       name: 'Vault_713',
@@ -36,9 +37,7 @@ describe('deleteParameters', () => {
   it('deletes the parameter', async () => {
     const prefix = 'my-company/my-app';
 
-    const handler = jest.fn(() => undefined);
-
-    SSM.__setResponseForMethods({ deleteParameter: handler });
+    SSM.__setResponseForMethods({ deleteParameter: createHandler() });
 
     const response = await deleteParameter({
       name: 'Vault_713',
@@ -62,11 +61,8 @@ describe('deleteParameters', () => {
     const prefix = 'my-company/my-app';
 
     const error = { code: 'ParameterNotFound', name: 'ParameterNotFound' };
-    const handler = jest.fn(() => {
-      throw error;
-    });
 
-    SSM.__setResponseForMethods({ deleteParameter: handler });
+    SSM.__setResponseForMethods({ deleteParameter: createHandler(() => { throw error }) });
 
     const response = await deleteParameter({
       name: 'Vault_713',
@@ -88,9 +84,8 @@ describe('deleteParameters', () => {
 
   it('via command invocation', async () => {
     const prefix = 'my-company/my-app';
-    const handler = jest.fn(() => undefined);
 
-    SSM.__setResponseForMethods({ deleteParameter: handler });
+    SSM.__setResponseForMethods({ deleteParameter: createHandler() });
 
     await deleteCommand('Vault_713', { parent: { prefix } });
 

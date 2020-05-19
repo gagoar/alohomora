@@ -2,10 +2,10 @@ import { CustomConfig, getCustomConfiguration } from './getCustomConfiguration';
 
 interface Options { ci?: boolean, prefix?: string, awsProfile?: string, environment?: string, awsRegion?: string, awsAccessKeyId?: string, awsSecretAccessKey?: string, awsSessionToken?: string }
 type PossibleCredentials = { profile?: string, accessKeyId?: string, secretAccessKey?: string, sessionToken?: string };
-type Parameters = { prefix: string, region?: string, environment?: string, ci?: boolean }
-export interface Command { parent: Options }
-export const getGlobalOptions = async (command: Command): Promise<{ params: Parameters, credentials: PossibleCredentials }> => {
-  let customConfiguration: CustomConfig | void
+type Parameters = { prefix: string, region?: string, environment?: string, ci?: boolean };
+export interface Command { parent: Options };
+
+const getOptionsFromCommand = (command: Command): [PossibleCredentials, Partial<Parameters>] => {
   const {
     parent:
     {
@@ -22,7 +22,14 @@ export const getGlobalOptions = async (command: Command): Promise<{ params: Para
 
   const credentials = { profile, accessKeyId, secretAccessKey, sessionToken };
 
-  if (!prefix) {
+  return [credentials, { environment, prefix, region, ci }]
+}
+export const getGlobalOptions = async (command: Command): Promise<{ params: Parameters, credentials: PossibleCredentials }> => {
+  let customConfiguration: CustomConfig | void
+
+  const [credentials, parameters] = getOptionsFromCommand(command);
+
+  if (!parameters.prefix) {
     customConfiguration = await getCustomConfiguration();
 
     if (customConfiguration && 'prefix' in customConfiguration && typeof customConfiguration.prefix === 'string') {
@@ -38,7 +45,7 @@ export const getGlobalOptions = async (command: Command): Promise<{ params: Para
   } else {
     return {
       credentials,
-      params: { prefix, environment, region, ci }
+      params: parameters as Parameters
     }
   }
 }
