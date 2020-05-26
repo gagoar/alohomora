@@ -11,7 +11,7 @@ type AWSResponse = { Parameters?: any[], NextToken?: string }
 export const paginateAWSCall = async<TParams extends AWSParams, TResult extends AWSResponse, TResponse>
   (params: TParams, getter: (params: TParams) => AWSPromise<TResult>): Promise<TResponse[]> => {
 
-  const { NextToken, Parameters: parameters = [] } = await getter(params).promise()
+  const { NextToken, Parameters: parameters = [] } = await getter(params).promise();
 
   if (NextToken) {
     const moreParameters = await paginateAWSCall({ ...params, NextToken }, getter);
