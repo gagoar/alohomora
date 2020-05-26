@@ -10,18 +10,7 @@ import { normalizeSecrets, MetadataList } from '../utils/normalizeSecrets';
 import { Command, getGlobalOptions } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
 import { createTable, getTableHeader } from '../utils/tables';
-
-const describeParameters = async (params: SSM.DescribeParametersRequest, region: string): Promise<SSM.ParameterMetadataList> => {
-  const ssm = new SSM({ apiVersion: API_VERSION, region });
-  const { Parameters: parameters = [], NextToken } = await ssm.describeParameters(params).promise();
-
-  if (NextToken) {
-    const moreParameters = await describeParameters({ ...params, NextToken }, region);
-    return [...parameters, ...moreParameters];
-  } else {
-    return parameters;
-  }
-}
+import { paginateAWSCall } from '../utils/paginateAWSCall';
 
 interface Input extends Actions {
   groupBy?: keyof typeof GroupBy
@@ -78,7 +67,13 @@ export const listParameters = async ({ environment, prefix, region = REGION, ci 
   let parameters: SSM.ParameterMetadataList = [];
 
   try {
-    parameters = await describeParameters(params, region);
+
+    const ssm = new SSM({ apiVersion: API_VERSION, region });
+
+    parameters = await paginateAWSCall<
+      SSM.DescribeParametersRequest,
+      SSM.DescribeParametersResult,
+      SSM.ParameterMetadata>(params, ssm.describeParameters.bind(ssm));
 
     const keys = normalizeSecrets(prefix, parameters);
 
