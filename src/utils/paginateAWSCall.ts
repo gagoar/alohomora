@@ -6,10 +6,12 @@ type AWSPromise<T> = {
 
 type AWSParams = Record<string, any> & { NextToken?: string };
 
-type AWSResponse = { Parameters?: any[], NextToken?: string }
+type AWSResponse = { Parameters?: any[], NextToken?: string };
 
-export const paginateAWSCall = async<TParams extends AWSParams, TResult extends AWSResponse, TResponse>
-  (params: TParams, getter: (params: TParams) => AWSPromise<TResult>): Promise<TResponse[]> => {
+type Getter<TParams, TResult> = (params: TParams) => AWSPromise<TResult>;
+
+export const paginateAWSCall = async<TParams extends AWSParams, TResult extends AWSResponse, TResponse extends any>
+  (params: TParams, getter: Getter<TParams, TResult>): Promise<TResponse[]> => {
 
   const { NextToken, Parameters: parameters = [] } = await getter(params).promise();
 
