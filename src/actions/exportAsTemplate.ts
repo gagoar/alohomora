@@ -7,29 +7,23 @@ import { normalizeSecretKey } from '../utils/normalizeSecrets';
 import { isValidTemplate } from '../utils/guards';
 import { getGlobalOptions, Command } from '../utils/getGlobalOptions';
 import { setAWSCredentials } from '../utils/setAWSCredentials';
+import { paginateAWSCall } from '../utils/paginateAWSCall';
 interface Input extends Actions { templateName?: Template, custom?: string };
 
-const getParametersByPath = async (params: SSM.GetParametersByPathRequest, region: string): Promise<SSM.ParameterList> => {
-
-  const ssm = new SSM({ apiVersion: API_VERSION, region });
-  const { Parameters: parameters = [], NextToken } = await ssm.getParametersByPath(params).promise();
-
-  if (NextToken) {
-    const moreParameters = await getParametersByPath({ ...params, NextToken }, region);
-    return [...parameters, ...moreParameters];
-  } else {
-    return parameters;
-  }
-}
-
 const getKeys = async ({ prefix, region }: { prefix: string, region: string }) => {
-  const parameters = await getParametersByPath({
+  const params = {
     Path: `/${prefix}`,
     MaxResults: MAX_RESULTS_FOR_PATH,
     Recursive: true,
     WithDecryption: true,
-  }, region);
+  };
 
+  const ssm = new SSM({ apiVersion: API_VERSION, region });
+
+  const parameters = await paginateAWSCall<
+    SSM.GetParametersByPathRequest,
+    SSM.GetParametersByPathResult,
+    SSM.Parameter>(params, ssm.getParametersByPath.bind(ssm));
   const secrets = parameters.map(({ Name = '', Value: value = '' }) => {
 
     const { name, environment } = normalizeSecretKey(Name, prefix);
