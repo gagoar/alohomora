@@ -2,7 +2,7 @@
 
 type AWSPromise<T> = {
   promise: () => Promise<T>;
-}
+};
 
 type AWSParams = Record<string, any> & { NextToken?: string };
 
@@ -21,4 +21,4 @@ export const paginateAWSCall = async<TParams extends AWSParams, TResult extends 
   } else {
     return parameters;
   }
-}
+};
