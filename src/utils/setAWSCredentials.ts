@@ -10,7 +10,7 @@ export type Credentials = {
   sessionToken?: string,
 };
 
-export const setAWSCredentials = (credentialsOptions: CredentialsOptions | null) => {
+export const setAWSCredentials = (credentialsOptions: CredentialsOptions | null): void => {
   if (isProfileCredentials(credentialsOptions)) {
     AWS.config.credentials = new SharedIniFileCredentials({ profile: credentialsOptions.profile });
     return;
