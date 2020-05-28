@@ -5,7 +5,8 @@ const ORIGINALS = {
   error: global.console.error
 }
 
-export const createHandler = (response: Response = () => undefined) => {
+const defaultResponse = (): undefined => undefined;
+export const createHandler = (response: Response = defaultResponse): jest.Mock => {
   return jest.fn(response);
 }
 type METHODS = 'log' | 'error';

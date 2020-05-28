@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { SSM as RealSSM } from 'aws-sdk';
+import { SSM as RealSSM, AWSError, Request } from 'aws-sdk';
+
+
+type Return<T> = Request<T, AWSError>;
+type Callback<T = any> = (err: AWSError | null, data: T) => void;
+
 enum Methods {
   describeParameters = 'describeParameters',
   getParameter = 'getParameter',
@@ -12,14 +17,14 @@ enum Methods {
 type SSMMOCKS = Partial<Record<Methods, (props: any) => any>>;
 let ssmMocks = {} as SSMMOCKS;
 
-type Dispatch = (response: Promise<any>, callback?: Function) => { promise: () => Promise<any> } | any
-const dispatch: Dispatch = (response, callback?: Function) => {
+type Dispatch = (response: Promise<any>, callback?: Callback) => { promise: () => Promise<any> } | any
+const dispatch: Dispatch = (response, callback?: Callback) => {
   if (!callback) {
     return {
       promise: () => response,
     }
   }
-  return response.then((result: RealSSM.DescribeParametersResult) => callback(null, result)).catch((err: Error) => callback(err, null));
+  return response.then((result: RealSSM.DescribeParametersResult) => callback(null, result)).catch((err: AWSError) => callback(err, null));
 }
 
 const baseHandler = async <T>(method: Methods, props: T): Promise<Record<string, any>> => {
@@ -32,39 +37,39 @@ const baseHandler = async <T>(method: Methods, props: T): Promise<Record<string,
 };
 
 export default class SSM {
-  static __setResponseForMethods(mock: SSMMOCKS) {
+  static __setResponseForMethods(mock: SSMMOCKS): void {
     ssmMocks = { ...ssmMocks, ...mock };
   }
 
-  static __showMockedPayloads() {
+  static __showMockedPayloads(): SSMMOCKS {
     return { ...ssmMocks };
   }
 
-  getParameter(props: RealSSM.GetParametersRequest, callback?: Function) {
+  getParameter(props: RealSSM.GetParametersRequest, callback: Callback<RealSSM.GetParametersResult>): Return<RealSSM.GetParametersResult> {
     const promise = baseHandler(Methods.getParameter, props);
 
     return dispatch(promise, callback);
 
   }
-  putParameter(props: RealSSM.PutParameterRequest, callback?: Function) {
+  putParameter(props: RealSSM.PutParameterRequest, callback: Callback<RealSSM.PutParameterResult>): Return<RealSSM.PutParameterResult> {
     const promise = baseHandler(Methods.putParameter, props);
 
     return dispatch(promise, callback);
   }
 
-  deleteParameter(props: RealSSM.DeleteParameterRequest, callback?: Function) {
+  deleteParameter(props: RealSSM.DeleteParameterRequest, callback: Callback<RealSSM.DeleteParameterResult>): Return<RealSSM.DeleteParameterResult> {
     const promise = baseHandler(Methods.deleteParameter, props);
 
     return dispatch(promise, callback);
   }
 
-  getParametersByPath(props: RealSSM.GetParametersByPathRequest, callback?: Function) {
+  getParametersByPath(props: RealSSM.GetParametersByPathRequest, callback: Callback<RealSSM.GetParametersByPathResult>): Return<RealSSM.GetParametersByPathResult> {
     const promise = baseHandler(Methods.getParametersByPath, props);
 
     return dispatch(promise, callback);
   }
 
-  describeParameters(props: RealSSM.DescribeParametersRequest, callback?: Function) {
+  describeParameters(props: RealSSM.DescribeParametersRequest, callback: Callback<RealSSM.DescribeParametersRequest>): Return<RealSSM.DescribeParametersResult> {
     const promise = baseHandler(Methods.describeParameters, props);
 
     return dispatch(promise, callback);

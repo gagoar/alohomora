@@ -1,7 +1,7 @@
 import Table from 'cli-table3';
 import { GroupBy } from './constants';
 type TableContent = Table.HorizontalTableRow | Table.VerticalTableRow | Table.CrossTableRow;
-export const createTable = (head: Table.TableOptions['head'] | undefined, content: TableContent[], style?: Table.TableConstructorOptions['style']) => {
+export const createTable = (head: Table.TableOptions['head'] | undefined, content: TableContent[], style?: Table.TableConstructorOptions['style']): Table.Table => {
 
   const table = new Table({
     head,
@@ -19,7 +19,7 @@ const HEADERS: Record<GroupByKeys, string[]> = {
   'name': ['Environment', 'Updated by', 'Updated at']
 }
 
-export const getTableHeader = (groupBy?: GroupByKeys) => {
+export const getTableHeader = (groupBy?: GroupByKeys): string[] => {
   if (!groupBy) {
     return ['Name', 'Environment', 'Updated by', 'Updated at'];
   }
