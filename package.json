@@ -92,14 +92,14 @@
   },
   "author": "Gago <xeroice@gmail.com>",
   "dependencies": {
-    "aws-sdk": "^2.674.0",
-    "cli-table3": "^0.6.0",
-    "colors": "^1.4.0",
-    "commander": "^5.1.0",
-    "cosmiconfig": "^6.0.0",
-    "dateformat": "^3.0.3",
-    "lodash.groupby": "^4.6.0",
-    "ora": "^4.0.4"
+    "aws-sdk": "2.674.0",
+    "cli-table3": "0.6.0",
+    "colors": "1.4.0",
+    "commander": "5.1.0",
+    "cosmiconfig": "6.0.0",
+    "dateformat": "3.0.3",
+    "lodash.groupby": "4.6.0",
+    "ora": "4.0.4"
   },
   "devDependencies": {
     "@types/dateformat": "3.0.1",
