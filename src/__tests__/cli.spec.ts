@@ -79,7 +79,7 @@ describe('on CLI invoke', () => {
       'SECRET_3_VALUE',
     ]);
     expect(result.error).toBe(null);
-    expect(result.stdout).toEqual(expect.stringContaining(randomSecretName))
+    expect(result.stdout).toEqual(expect.stringContaining(randomSecretName));
     expect(result.stdout).toEqual(expect.stringContaining('SECRET_3_VALUE'));
   });
   it(`delete ${randomSecretName} `, async () => {

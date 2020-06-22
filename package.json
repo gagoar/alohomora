@@ -28,11 +28,18 @@
     "parameter",
     "store"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.+(js|ts)": [
-      "pretty-quick --staged",
+    "*": [
+      "pretty-quick --staged"
+    ],
+    "*.ts": [
       "eslint --fix",
-      "git add"
+      "bash -c \"npm run build\""
     ]
   },
   "eslintConfig": {
