@@ -1,8 +1,8 @@
-import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { getParameter } from '..';
-import { getCommand } from '../actions/commands';
-import { stopAndPersist, fail } from '../__mocks__/ora';
-import { mockConsole, unMockConsole } from './helpers';
+import SSM from '../../__mocks__/aws-sdk/clients/ssm';
+import { getParameter } from '../../';
+import { getCommand } from '../../actions/commands';
+import { stopAndPersist, fail } from '../../__mocks__/ora';
+import { mockConsole, unMockConsole } from '../helpers';
 
 const getParameterPayload = {
   'Name': '/my-company/my-app/production/Vault_713',

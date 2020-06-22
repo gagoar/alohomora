@@ -29,7 +29,7 @@ jobs:
         run: |
           npm install
       - name: Jest
-        run: npm run test --coverage
+        run: npm run test actions --coverage
       - name: Send coverage to codecov
         uses: codecov/codecov-action@v1
         with:
@@ -50,3 +50,20 @@ jobs:
           npm install
       - name: Build
         run: npm run build
+
+  test:
+    name: Run Integration test (list/export/get/set/delete)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: |
+          npm install
+      - name: Build
+        run: npm run build
+      - name: Integration tests
+        run: npm run test cli -- --no-coverage

@@ -2,6 +2,8 @@ import path from 'path';
 
 import { exec, ExecException } from 'child_process';
 
+import uuid from 'uuid-random';
+
 async function cli(
   args: string[],
   cwd = '.'
@@ -13,9 +15,7 @@ async function cli(
 }> {
   return new Promise((resolve) => {
     exec(
-      `ts-node --project tsconfig.node.json ${path.resolve(
-        './src/bin/cli'
-      )} ${args.join(' ')}`,
+      `node ${path.resolve('./dist/index.js')} ${args.join(' ')}`,
       { cwd },
       (error, stdout, stderr) => {
         resolve({
@@ -29,58 +29,70 @@ async function cli(
   });
 }
 
-// Used for manual testing purposes. I trust commander  does what is should do. 
-describe.skip('on CLI invoke', () => {
-  test('export  --help', async () => {
-    const result = await cli(['export', '--help']);
+// Used for manual testing purposes. I trust commander does what it should do.
+describe('on CLI invoke', () => {
+  const randomSecretName = uuid();
+  it('export returns the right combination', async () => {
+    const result = await cli([
+      '--prefix test',
+      '--environment production',
+      '--aws-region us-east-2',
+      '--aws-profile alohomora-bot',
+      'export',
+    ]);
     expect(result.error).toBe(null);
     expect(result.stdout).toMatchInlineSnapshot(`
-      "Usage: alohomora export [options] [templateName]
-
-      export all keys, a template can be chosen between json or shell, by default it uses shell
-
-      Options:
-        -h, --help  display help for command
+      "export secret_1='SECRET_1_VALUE_PRODUCTION'
+      export secret_2='SECRET_2_ALL'
       "
     `);
   });
-  test('get  --help', async () => {
-    const result = await cli(['get', '--help']);
+  it('get parameter', async () => {
+    const result = await cli([
+      '--prefix test',
+      '--environment production',
+      '--aws-region us-east-2',
+      '--aws-profile alohomora-bot',
+      '--ci',
+      'get',
+      'secret_1',
+    ]);
     expect(result.error).toBe(null);
     expect(result.stdout).toMatchInlineSnapshot(`
-      "Usage: alohomora get [options] <name>
-
-      Get secret
-
-      Options:
-        -h, --help  display help for command
+      "┌──────────┬───────────────────────────┬─────────────┬────────────────────────────────────────────────┬─────────┐
+      │ Name     │ Value                     │ Environment │ Updated by                                     │ Version │
+      ├──────────┼───────────────────────────┼─────────────┼────────────────────────────────────────────────┼─────────┤
+      │ secret_1 │ SECRET_1_VALUE_PRODUCTION │ production  │ Monday, June 22nd, 2020, 3:35:48 AM (GMT+0000) │ 1       │
+      └──────────┴───────────────────────────┴─────────────┴────────────────────────────────────────────────┴─────────┘
       "
     `);
   });
-  test('set  --help', async () => {
-    const result = await cli(['set', '--help']);
+  it(`set parameter ${randomSecretName}`, async () => {
+    const result = await cli([
+      '--prefix test',
+      '--environment production',
+      '--aws-region us-east-2',
+      '--aws-profile alohomora-bot',
+      '--ci',
+      'set',
+      randomSecretName,
+      'SECRET_3_VALUE',
+    ]);
     expect(result.error).toBe(null);
-    expect(result.stdout).toMatchInlineSnapshot(`
-      "Usage: alohomora set [options] <name> <value> [description]
-
-      Set secret
-
-      Options:
-        -h, --help  display help for command
-      "
-    `);
+    expect(result.stdout).toEqual(expect.stringContaining(randomSecretName))
+    expect(result.stdout).toEqual(expect.stringContaining('SECRET_3_VALUE'));
   });
-  test('list  --help', async () => {
-    const result = await cli(['list', '--help']);
+  it(`delete ${randomSecretName} `, async () => {
+    const result = await cli([
+      '--prefix test',
+      '--environment production',
+      '--aws-region us-east-2',
+      '--aws-profile alohomora-bot',
+      '--ci',
+      'delete',
+      randomSecretName,
+    ]);
     expect(result.error).toBe(null);
-    expect(result.stdout).toMatchInlineSnapshot(`
-      "Usage: alohomora list [options]
-
-      List all the environment variables under a given prefix
-
-      Options:
-        -h, --help  display help for command
-      "
-    `);
+    expect(result.stdout).toMatchInlineSnapshot('""');
   });
 });

@@ -1,7 +1,7 @@
 import { mockProcessExit } from 'jest-mock-process';
-import { getGlobalOptions } from '../utils/getGlobalOptions';
-import { search } from '../__mocks__/cosmiconfig';
-import { mockConsole, unMockConsole } from './helpers';
+import { getGlobalOptions } from '../../utils/getGlobalOptions';
+import { search } from '../../__mocks__/cosmiconfig';
+import { mockConsole, unMockConsole } from '../helpers';
 
 describe('getGlobalOptions', () => {
   let consoleErrorMock: jest.Mock;

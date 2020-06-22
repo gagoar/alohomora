@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { setAWSCredentials } from '../utils/setAWSCredentials';
+import { setAWSCredentials } from '../../utils/setAWSCredentials';
 
 describe('setAWSCredentials', () => {
   it('sets sharedCredentials when profile is provided', async () => {

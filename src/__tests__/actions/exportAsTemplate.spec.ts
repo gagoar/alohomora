@@ -1,10 +1,10 @@
 import { mockProcessExit } from 'jest-mock-process';
-import getParametersByPathPayload from '../__mocks__/getParametersByPath.json';
-import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { exportAsTemplate } from '..';
-import { exportCommand } from '../actions/commands';
-import { Template } from '../utils/constants';
-import { createHandler, mockConsole, unMockConsole } from './helpers';
+import getParametersByPathPayload from '../../__mocks__/getParametersByPath.json';
+import SSM from '../../__mocks__/aws-sdk/clients/ssm';
+import { exportAsTemplate } from '../..';
+import { exportCommand } from '../../actions/commands';
+import { Template } from '../../utils/constants';
+import { createHandler, mockConsole, unMockConsole } from '../helpers';
 
 describe('exportAsTemplate', () => {
   let consoleErrorMock: jest.Mock;
