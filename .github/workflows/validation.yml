@@ -1,6 +1,10 @@
 name: alohomora
 
-on: push
+on:
+  pull_request:
+    paths:
+      - "*.*"
+
 jobs:
   lint:
     name: Linting
@@ -51,7 +55,7 @@ jobs:
       - name: Build
         run: npm run build
 
-  test:
+  integration:
     name: Run Integration test (list/export/get/set/delete)
     runs-on: ubuntu-latest
     steps:
