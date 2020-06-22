@@ -37,7 +37,6 @@ describe('on CLI invoke', () => {
       '--prefix test',
       '--environment production',
       '--aws-region us-east-2',
-      '--aws-profile alohomora-bot',
       'export',
     ]);
     expect(result.error).toBe(null);
@@ -52,7 +51,6 @@ describe('on CLI invoke', () => {
       '--prefix test',
       '--environment production',
       '--aws-region us-east-2',
-      '--aws-profile alohomora-bot',
       '--ci',
       'get',
       'secret_1',
@@ -72,7 +70,6 @@ describe('on CLI invoke', () => {
       '--prefix test',
       '--environment production',
       '--aws-region us-east-2',
-      '--aws-profile alohomora-bot',
       '--ci',
       'set',
       randomSecretName,
@@ -87,7 +84,6 @@ describe('on CLI invoke', () => {
       '--prefix test',
       '--environment production',
       '--aws-region us-east-2',
-      '--aws-profile alohomora-bot',
       '--ci',
       'delete',
       randomSecretName,
