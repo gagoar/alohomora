@@ -1,9 +1,9 @@
-import listParametersPayload from '../__mocks__/describeParameters.json';
-import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { listParameters } from '../';
 import { mockProcessExit } from 'jest-mock-process';
-import { listCommand } from '../actions/commands';
-import { mockConsole, unMockConsole, createHandler } from './helpers';
+import listParametersPayload from '../../__mocks__/describeParameters.json';
+import SSM from '../../__mocks__/aws-sdk/clients/ssm';
+import { listParameters } from '../../';
+import { listCommand } from '../../actions/commands';
+import { mockConsole, unMockConsole, createHandler } from '../helpers';
 
 const mockSSResponse = () => {
   SSM.__setResponseForMethods({ describeParameters: createHandler(() => ({ Parameters: listParametersPayload })) });

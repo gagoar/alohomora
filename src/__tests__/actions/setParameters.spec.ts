@@ -1,7 +1,7 @@
-import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { setParameter } from '..';
-import { setCommand } from '../actions/commands';
-import { unMockConsole, mockConsole } from './helpers';
+import SSM from '../../__mocks__/aws-sdk/clients/ssm';
+import { setParameter } from '../../';
+import { setCommand } from '../../actions/commands';
+import { unMockConsole, mockConsole } from '../helpers';
 
 const realDate = Date.now
 

@@ -1,8 +1,8 @@
-import SSM from '../__mocks__/aws-sdk/clients/ssm';
-import { deleteParameter } from '..';
-import { deleteCommand } from '../actions/commands';
-import { stopAndPersist, fail } from '../__mocks__/ora';
-import { createHandler } from './helpers';
+import SSM from '../../__mocks__/aws-sdk/clients/ssm';
+import { deleteParameter } from '../../';
+import { deleteCommand } from '../../actions/commands';
+import { stopAndPersist, fail } from '../../__mocks__/ora';
+import { createHandler } from '../helpers';
 
 describe('deleteParameters', () => {
   beforeEach(() => {
