@@ -106,7 +106,7 @@
     "cosmiconfig": "6.0.0",
     "dateformat": "3.0.3",
     "lodash.groupby": "4.6.0",
-    "ora": "4.0.4"
+    "ora": "4.0.5"
   },
   "devDependencies": {
     "@types/dateformat": "3.0.1",
