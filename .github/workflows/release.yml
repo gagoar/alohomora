@@ -8,7 +8,6 @@ on:
 
 jobs:
   release:
-    name: Release a new version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +15,13 @@ jobs:
         with:
           node-version: "12.x"
           registry-url: "https://registry.npmjs.org"
-      - name: Install Packages
       - run: npm install
-      - name: Publishing to NPM
-      - run: npm release
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/setup-node@v1
+        with:
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
