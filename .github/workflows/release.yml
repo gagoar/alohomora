@@ -33,10 +33,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "publish package"
-      - run: npm install
-      - run: npm run build
-      - run: npm install
-      - run: |
+        run: |
+          npm install
+          npm run build
           echo @gagoar:registry=https://npm.pkg.github.com/ >> .npmrc
           npm publish
         env:
