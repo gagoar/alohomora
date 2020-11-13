@@ -99,7 +99,7 @@
   },
   "author": "Gago <xeroice@gmail.com>",
   "dependencies": {
-    "aws-sdk": "2.790.0",
+    "aws-sdk": "2.791.0",
     "cli-table3": "0.6.0",
     "colors": "1.4.0",
     "commander": "6.2.0",
