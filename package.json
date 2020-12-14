@@ -102,7 +102,7 @@
     "aws-sdk": "2.808.0",
     "cli-table3": "0.6.0",
     "colors": "1.4.0",
-    "commander": "6.2.0",
+    "commander": "6.2.1",
     "cosmiconfig": "7.0.0",
     "dateformat": "3.0.3",
     "lodash.groupby": "4.6.0",
