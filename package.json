@@ -113,7 +113,7 @@
     "@types/debug": "4.1.5",
     "@types/jest": "26.0.19",
     "@types/lodash.groupby": "4.6.6",
-    "@types/node": "13.13.35",
+    "@types/node": "13.13.36",
     "@typescript-eslint/eslint-plugin": "4.10.0",
     "@typescript-eslint/parser": "4.10.0",
     "@zeit/ncc": "0.22.3",
