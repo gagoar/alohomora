@@ -104,7 +104,7 @@
     "colors": "1.4.0",
     "commander": "6.2.1",
     "cosmiconfig": "7.0.0",
-    "dateformat": "3.0.3",
+    "dateformat": "4.5.1",
     "lodash.groupby": "4.6.0",
     "ora": "5.3.0"
   },
