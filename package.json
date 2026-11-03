@@ -120,7 +120,7 @@
     "ajv-keywords": "5.0.0",
     "auto-changelog": "2.2.1",
     "bufferutil": "4.0.3",
-    "canvas": "2.6.1",
+    "canvas": "2.11.2",
     "eslint": "7.19.0",
     "eslint-config-prettier": "7.2.0",
     "husky": "4.3.8",
